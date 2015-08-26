@@ -1,0 +1,3234 @@
+m4trace:/usr/share/aclocal/pkg.m4:27: -1- AC_DEFUN([PKG_PROG_PKG_CONFIG], [m4_pattern_forbid([^_?PKG_[A-Z_]+$])
+m4_pattern_allow([^PKG_CONFIG(_(PATH|LIBDIR|SYSROOT_DIR|ALLOW_SYSTEM_(CFLAGS|LIBS)))?$])
+m4_pattern_allow([^PKG_CONFIG_(DISABLE_UNINSTALLED|TOP_BUILD_DIR|DEBUG_SPEW)$])
+AC_ARG_VAR([PKG_CONFIG], [path to pkg-config utility])
+AC_ARG_VAR([PKG_CONFIG_PATH], [directories to add to pkg-config's search path])
+AC_ARG_VAR([PKG_CONFIG_LIBDIR], [path overriding pkg-config's built-in search path])
+
+if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
+	AC_PATH_TOOL([PKG_CONFIG], [pkg-config])
+fi
+if test -n "$PKG_CONFIG"; then
+	_pkg_min_version=m4_default([$1], [0.9.0])
+	AC_MSG_CHECKING([pkg-config is at least version $_pkg_min_version])
+	if $PKG_CONFIG --atleast-pkgconfig-version $_pkg_min_version; then
+		AC_MSG_RESULT([yes])
+	else
+		AC_MSG_RESULT([no])
+		PKG_CONFIG=""
+	fi
+fi[]dnl
+])
+m4trace:/usr/share/aclocal/pkg.m4:60: -1- AC_DEFUN([PKG_CHECK_EXISTS], [AC_REQUIRE([PKG_PROG_PKG_CONFIG])dnl
+if test -n "$PKG_CONFIG" && \
+    AC_RUN_LOG([$PKG_CONFIG --exists --print-errors "$1"]); then
+  m4_default([$2], [:])
+m4_ifvaln([$3], [else
+  $3])dnl
+fi])
+m4trace:/usr/share/aclocal/pkg.m4:86: -1- AC_DEFUN([_PKG_SHORT_ERRORS_SUPPORTED], [AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi[]dnl
+])
+m4trace:/usr/share/aclocal/pkg.m4:106: -1- AC_DEFUN([PKG_CHECK_MODULES], [AC_REQUIRE([PKG_PROG_PKG_CONFIG])dnl
+AC_ARG_VAR([$1][_CFLAGS], [C compiler flags for $1, overriding pkg-config])dnl
+AC_ARG_VAR([$1][_LIBS], [linker flags for $1, overriding pkg-config])dnl
+
+pkg_failed=no
+AC_MSG_CHECKING([for $1])
+
+_PKG_CONFIG([$1][_CFLAGS], [cflags], [$2])
+_PKG_CONFIG([$1][_LIBS], [libs], [$2])
+
+m4_define([_PKG_TEXT], [Alternatively, you may set the environment variables $1[]_CFLAGS
+and $1[]_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.])
+
+if test $pkg_failed = yes; then
+   	AC_MSG_RESULT([no])
+        _PKG_SHORT_ERRORS_SUPPORTED
+        if test $_pkg_short_errors_supported = yes; then
+	        $1[]_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$2" 2>&1`
+        else 
+	        $1[]_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$2" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$$1[]_PKG_ERRORS" >&AS_MESSAGE_LOG_FD
+
+	m4_default([$4], [AC_MSG_ERROR(
+[Package requirements ($2) were not met:
+
+$$1_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+_PKG_TEXT])[]dnl
+        ])
+elif test $pkg_failed = untried; then
+     	AC_MSG_RESULT([no])
+	m4_default([$4], [AC_MSG_FAILURE(
+[The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+_PKG_TEXT
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.])[]dnl
+        ])
+else
+	$1[]_CFLAGS=$pkg_cv_[]$1[]_CFLAGS
+	$1[]_LIBS=$pkg_cv_[]$1[]_LIBS
+        AC_MSG_RESULT([yes])
+	$3
+fi[]dnl
+])
+m4trace:/usr/share/aclocal-1.11/amversion.m4:17: -1- AC_DEFUN([AM_AUTOMAKE_VERSION], [am__api_version='1.11'
+dnl Some users find AM_AUTOMAKE_VERSION and mistake it for a way to
+dnl require some minimum version.  Point them to the right macro.
+m4_if([$1], [1.11.6], [],
+      [AC_FATAL([Do not call $0, use AM_INIT_AUTOMAKE([$1]).])])dnl
+])
+m4trace:/usr/share/aclocal-1.11/amversion.m4:36: -1- AC_DEFUN([AM_SET_CURRENT_AUTOMAKE_VERSION], [AM_AUTOMAKE_VERSION([1.11.6])dnl
+m4_ifndef([AC_AUTOCONF_VERSION],
+  [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
+_AM_AUTOCONF_VERSION(m4_defn([AC_AUTOCONF_VERSION]))])
+m4trace:/usr/share/aclocal-1.11/auxdir.m4:49: -1- AC_DEFUN([AM_AUX_DIR_EXPAND], [dnl Rely on autoconf to set up CDPATH properly.
+AC_PREREQ([2.50])dnl
+# expand $ac_aux_dir to an absolute path
+am_aux_dir=`cd $ac_aux_dir && pwd`
+])
+m4trace:/usr/share/aclocal-1.11/cond.m4:15: -1- AC_DEFUN([AM_CONDITIONAL], [AC_PREREQ(2.52)dnl
+ ifelse([$1], [TRUE],  [AC_FATAL([$0: invalid condition: $1])],
+	[$1], [FALSE], [AC_FATAL([$0: invalid condition: $1])])dnl
+AC_SUBST([$1_TRUE])dnl
+AC_SUBST([$1_FALSE])dnl
+_AM_SUBST_NOTMAKE([$1_TRUE])dnl
+_AM_SUBST_NOTMAKE([$1_FALSE])dnl
+m4_define([_AM_COND_VALUE_$1], [$2])dnl
+if $2; then
+  $1_TRUE=
+  $1_FALSE='#'
+else
+  $1_TRUE='#'
+  $1_FALSE=
+fi
+AC_CONFIG_COMMANDS_PRE(
+[if test -z "${$1_TRUE}" && test -z "${$1_FALSE}"; then
+  AC_MSG_ERROR([[conditional "$1" was never defined.
+Usually this means the macro was only invoked conditionally.]])
+fi])])
+m4trace:/usr/share/aclocal-1.11/depend.m4:28: -1- AC_DEFUN([_AM_DEPENDENCIES], [AC_REQUIRE([AM_SET_DEPDIR])dnl
+AC_REQUIRE([AM_OUTPUT_DEPENDENCY_COMMANDS])dnl
+AC_REQUIRE([AM_MAKE_INCLUDE])dnl
+AC_REQUIRE([AM_DEP_TRACK])dnl
+
+ifelse([$1], CC,   [depcc="$CC"   am_compiler_list=],
+       [$1], CXX,  [depcc="$CXX"  am_compiler_list=],
+       [$1], OBJC, [depcc="$OBJC" am_compiler_list='gcc3 gcc'],
+       [$1], UPC,  [depcc="$UPC"  am_compiler_list=],
+       [$1], GCJ,  [depcc="$GCJ"  am_compiler_list='gcc3 gcc'],
+                   [depcc="$$1"   am_compiler_list=])
+
+AC_CACHE_CHECK([dependency style of $depcc],
+               [am_cv_$1_dependencies_compiler_type],
+[if test -z "$AMDEP_TRUE" && test -f "$am_depcomp"; then
+  # We make a subdir and do the tests there.  Otherwise we can end up
+  # making bogus files that we don't know about and never remove.  For
+  # instance it was reported that on HP-UX the gcc test will end up
+  # making a dummy file named `D' -- because `-MD' means `put the output
+  # in D'.
+  rm -rf conftest.dir
+  mkdir conftest.dir
+  # Copy depcomp to subdir because otherwise we won't find it if we're
+  # using a relative directory.
+  cp "$am_depcomp" conftest.dir
+  cd conftest.dir
+  # We will build objects and dependencies in a subdirectory because
+  # it helps to detect inapplicable dependency modes.  For instance
+  # both Tru64's cc and ICC support -MD to output dependencies as a
+  # side effect of compilation, but ICC will put the dependencies in
+  # the current directory while Tru64 will put them in the object
+  # directory.
+  mkdir sub
+
+  am_cv_$1_dependencies_compiler_type=none
+  if test "$am_compiler_list" = ""; then
+     am_compiler_list=`sed -n ['s/^#*\([a-zA-Z0-9]*\))$/\1/p'] < ./depcomp`
+  fi
+  am__universal=false
+  m4_case([$1], [CC],
+    [case " $depcc " in #(
+     *\ -arch\ *\ -arch\ *) am__universal=true ;;
+     esac],
+    [CXX],
+    [case " $depcc " in #(
+     *\ -arch\ *\ -arch\ *) am__universal=true ;;
+     esac])
+
+  for depmode in $am_compiler_list; do
+    # Setup a source with many dependencies, because some compilers
+    # like to wrap large dependency lists on column 80 (with \), and
+    # we should not choose a depcomp mode which is confused by this.
+    #
+    # We need to recreate these files for each test, as the compiler may
+    # overwrite some of them when testing with obscure command lines.
+    # This happens at least with the AIX C compiler.
+    : > sub/conftest.c
+    for i in 1 2 3 4 5 6; do
+      echo '#include "conftst'$i'.h"' >> sub/conftest.c
+      # Using `: > sub/conftst$i.h' creates only sub/conftst1.h with
+      # Solaris 8's {/usr,}/bin/sh.
+      touch sub/conftst$i.h
+    done
+    echo "${am__include} ${am__quote}sub/conftest.Po${am__quote}" > confmf
+
+    # We check with `-c' and `-o' for the sake of the "dashmstdout"
+    # mode.  It turns out that the SunPro C++ compiler does not properly
+    # handle `-M -o', and we need to detect this.  Also, some Intel
+    # versions had trouble with output in subdirs
+    am__obj=sub/conftest.${OBJEXT-o}
+    am__minus_obj="-o $am__obj"
+    case $depmode in
+    gcc)
+      # This depmode causes a compiler race in universal mode.
+      test "$am__universal" = false || continue
+      ;;
+    nosideeffect)
+      # after this tag, mechanisms are not by side-effect, so they'll
+      # only be used when explicitly requested
+      if test "x$enable_dependency_tracking" = xyes; then
+	continue
+      else
+	break
+      fi
+      ;;
+    msvc7 | msvc7msys | msvisualcpp | msvcmsys)
+      # This compiler won't grok `-c -o', but also, the minuso test has
+      # not run yet.  These depmodes are late enough in the game, and
+      # so weak that their functioning should not be impacted.
+      am__obj=conftest.${OBJEXT-o}
+      am__minus_obj=
+      ;;
+    none) break ;;
+    esac
+    if depmode=$depmode \
+       source=sub/conftest.c object=$am__obj \
+       depfile=sub/conftest.Po tmpdepfile=sub/conftest.TPo \
+       $SHELL ./depcomp $depcc -c $am__minus_obj sub/conftest.c \
+         >/dev/null 2>conftest.err &&
+       grep sub/conftst1.h sub/conftest.Po > /dev/null 2>&1 &&
+       grep sub/conftst6.h sub/conftest.Po > /dev/null 2>&1 &&
+       grep $am__obj sub/conftest.Po > /dev/null 2>&1 &&
+       ${MAKE-make} -s -f confmf > /dev/null 2>&1; then
+      # icc doesn't choke on unknown options, it will just issue warnings
+      # or remarks (even with -Werror).  So we grep stderr for any message
+      # that says an option was ignored or not supported.
+      # When given -MP, icc 7.0 and 7.1 complain thusly:
+      #   icc: Command line warning: ignoring option '-M'; no argument required
+      # The diagnosis changed in icc 8.0:
+      #   icc: Command line remark: option '-MP' not supported
+      if (grep 'ignoring option' conftest.err ||
+          grep 'not supported' conftest.err) >/dev/null 2>&1; then :; else
+        am_cv_$1_dependencies_compiler_type=$depmode
+        break
+      fi
+    fi
+  done
+
+  cd ..
+  rm -rf conftest.dir
+else
+  am_cv_$1_dependencies_compiler_type=none
+fi
+])
+AC_SUBST([$1DEPMODE], [depmode=$am_cv_$1_dependencies_compiler_type])
+AM_CONDITIONAL([am__fastdep$1], [
+  test "x$enable_dependency_tracking" != xno \
+  && test "$am_cv_$1_dependencies_compiler_type" = gcc3])
+])
+m4trace:/usr/share/aclocal-1.11/depend.m4:164: -1- AC_DEFUN([AM_SET_DEPDIR], [AC_REQUIRE([AM_SET_LEADING_DOT])dnl
+AC_SUBST([DEPDIR], ["${am__leading_dot}deps"])dnl
+])
+m4trace:/usr/share/aclocal-1.11/depend.m4:172: -1- AC_DEFUN([AM_DEP_TRACK], [AC_ARG_ENABLE(dependency-tracking,
+[  --disable-dependency-tracking  speeds up one-time build
+  --enable-dependency-tracking   do not reject slow dependency extractors])
+if test "x$enable_dependency_tracking" != xno; then
+  am_depcomp="$ac_aux_dir/depcomp"
+  AMDEPBACKSLASH='\'
+  am__nodep='_no'
+fi
+AM_CONDITIONAL([AMDEP], [test "x$enable_dependency_tracking" != xno])
+AC_SUBST([AMDEPBACKSLASH])dnl
+_AM_SUBST_NOTMAKE([AMDEPBACKSLASH])dnl
+AC_SUBST([am__nodep])dnl
+_AM_SUBST_NOTMAKE([am__nodep])dnl
+])
+m4trace:/usr/share/aclocal-1.11/depout.m4:14: -1- AC_DEFUN([_AM_OUTPUT_DEPENDENCY_COMMANDS], [{
+  # Autoconf 2.62 quotes --file arguments for eval, but not when files
+  # are listed without --file.  Let's play safe and only enable the eval
+  # if we detect the quoting.
+  case $CONFIG_FILES in
+  *\'*) eval set x "$CONFIG_FILES" ;;
+  *)   set x $CONFIG_FILES ;;
+  esac
+  shift
+  for mf
+  do
+    # Strip MF so we end up with the name of the file.
+    mf=`echo "$mf" | sed -e 's/:.*$//'`
+    # Check whether this is an Automake generated Makefile or not.
+    # We used to match only the files named `Makefile.in', but
+    # some people rename them; so instead we look at the file content.
+    # Grep'ing the first line is not enough: some people post-process
+    # each Makefile.in and add a new line on top of each file to say so.
+    # Grep'ing the whole file is not good either: AIX grep has a line
+    # limit of 2048, but all sed's we know have understand at least 4000.
+    if sed -n 's,^#.*generated by automake.*,X,p' "$mf" | grep X >/dev/null 2>&1; then
+      dirpart=`AS_DIRNAME("$mf")`
+    else
+      continue
+    fi
+    # Extract the definition of DEPDIR, am__include, and am__quote
+    # from the Makefile without running `make'.
+    DEPDIR=`sed -n 's/^DEPDIR = //p' < "$mf"`
+    test -z "$DEPDIR" && continue
+    am__include=`sed -n 's/^am__include = //p' < "$mf"`
+    test -z "am__include" && continue
+    am__quote=`sed -n 's/^am__quote = //p' < "$mf"`
+    # When using ansi2knr, U may be empty or an underscore; expand it
+    U=`sed -n 's/^U = //p' < "$mf"`
+    # Find all dependency output files, they are included files with
+    # $(DEPDIR) in their names.  We invoke sed twice because it is the
+    # simplest approach to changing $(DEPDIR) to its actual value in the
+    # expansion.
+    for file in `sed -n "
+      s/^$am__include $am__quote\(.*(DEPDIR).*\)$am__quote"'$/\1/p' <"$mf" | \
+	 sed -e 's/\$(DEPDIR)/'"$DEPDIR"'/g' -e 's/\$U/'"$U"'/g'`; do
+      # Make sure the directory exists.
+      test -f "$dirpart/$file" && continue
+      fdir=`AS_DIRNAME(["$file"])`
+      AS_MKDIR_P([$dirpart/$fdir])
+      # echo "creating $dirpart/$file"
+      echo '# dummy' > "$dirpart/$file"
+    done
+  done
+}
+])
+m4trace:/usr/share/aclocal-1.11/depout.m4:75: -1- AC_DEFUN([AM_OUTPUT_DEPENDENCY_COMMANDS], [AC_CONFIG_COMMANDS([depfiles],
+     [test x"$AMDEP_TRUE" != x"" || _AM_OUTPUT_DEPENDENCY_COMMANDS],
+     [AMDEP_TRUE="$AMDEP_TRUE" ac_aux_dir="$ac_aux_dir"])
+])
+m4trace:/usr/share/aclocal-1.11/init.m4:26: -1- AC_DEFUN([AM_INIT_AUTOMAKE], [AC_PREREQ([2.62])dnl
+dnl Autoconf wants to disallow AM_ names.  We explicitly allow
+dnl the ones we care about.
+m4_pattern_allow([^AM_[A-Z]+FLAGS$])dnl
+AC_REQUIRE([AM_SET_CURRENT_AUTOMAKE_VERSION])dnl
+AC_REQUIRE([AC_PROG_INSTALL])dnl
+if test "`cd $srcdir && pwd`" != "`pwd`"; then
+  # Use -I$(srcdir) only when $(srcdir) != ., so that make's output
+  # is not polluted with repeated "-I."
+  AC_SUBST([am__isrc], [' -I$(srcdir)'])_AM_SUBST_NOTMAKE([am__isrc])dnl
+  # test to see if srcdir already configured
+  if test -f $srcdir/config.status; then
+    AC_MSG_ERROR([source directory already configured; run "make distclean" there first])
+  fi
+fi
+
+# test whether we have cygpath
+if test -z "$CYGPATH_W"; then
+  if (cygpath --version) >/dev/null 2>/dev/null; then
+    CYGPATH_W='cygpath -w'
+  else
+    CYGPATH_W=echo
+  fi
+fi
+AC_SUBST([CYGPATH_W])
+
+# Define the identity of the package.
+dnl Distinguish between old-style and new-style calls.
+m4_ifval([$2],
+[m4_ifval([$3], [_AM_SET_OPTION([no-define])])dnl
+ AC_SUBST([PACKAGE], [$1])dnl
+ AC_SUBST([VERSION], [$2])],
+[_AM_SET_OPTIONS([$1])dnl
+dnl Diagnose old-style AC_INIT with new-style AM_AUTOMAKE_INIT.
+m4_if(m4_ifdef([AC_PACKAGE_NAME], 1)m4_ifdef([AC_PACKAGE_VERSION], 1), 11,,
+  [m4_fatal([AC_INIT should be called with package and version arguments])])dnl
+ AC_SUBST([PACKAGE], ['AC_PACKAGE_TARNAME'])dnl
+ AC_SUBST([VERSION], ['AC_PACKAGE_VERSION'])])dnl
+
+_AM_IF_OPTION([no-define],,
+[AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE", [Name of package])
+ AC_DEFINE_UNQUOTED(VERSION, "$VERSION", [Version number of package])])dnl
+
+# Some tools Automake needs.
+AC_REQUIRE([AM_SANITY_CHECK])dnl
+AC_REQUIRE([AC_ARG_PROGRAM])dnl
+AM_MISSING_PROG(ACLOCAL, aclocal-${am__api_version})
+AM_MISSING_PROG(AUTOCONF, autoconf)
+AM_MISSING_PROG(AUTOMAKE, automake-${am__api_version})
+AM_MISSING_PROG(AUTOHEADER, autoheader)
+AM_MISSING_PROG(MAKEINFO, makeinfo)
+AC_REQUIRE([AM_PROG_INSTALL_SH])dnl
+AC_REQUIRE([AM_PROG_INSTALL_STRIP])dnl
+AC_REQUIRE([AM_PROG_MKDIR_P])dnl
+# We need awk for the "check" target.  The system "awk" is bad on
+# some platforms.
+AC_REQUIRE([AC_PROG_AWK])dnl
+AC_REQUIRE([AC_PROG_MAKE_SET])dnl
+AC_REQUIRE([AM_SET_LEADING_DOT])dnl
+_AM_IF_OPTION([tar-ustar], [_AM_PROG_TAR([ustar])],
+	      [_AM_IF_OPTION([tar-pax], [_AM_PROG_TAR([pax])],
+			     [_AM_PROG_TAR([v7])])])
+_AM_IF_OPTION([no-dependencies],,
+[AC_PROVIDE_IFELSE([AC_PROG_CC],
+		  [_AM_DEPENDENCIES(CC)],
+		  [define([AC_PROG_CC],
+			  defn([AC_PROG_CC])[_AM_DEPENDENCIES(CC)])])dnl
+AC_PROVIDE_IFELSE([AC_PROG_CXX],
+		  [_AM_DEPENDENCIES(CXX)],
+		  [define([AC_PROG_CXX],
+			  defn([AC_PROG_CXX])[_AM_DEPENDENCIES(CXX)])])dnl
+AC_PROVIDE_IFELSE([AC_PROG_OBJC],
+		  [_AM_DEPENDENCIES(OBJC)],
+		  [define([AC_PROG_OBJC],
+			  defn([AC_PROG_OBJC])[_AM_DEPENDENCIES(OBJC)])])dnl
+])
+_AM_IF_OPTION([silent-rules], [AC_REQUIRE([AM_SILENT_RULES])])dnl
+dnl The `parallel-tests' driver may need to know about EXEEXT, so add the
+dnl `am__EXEEXT' conditional if _AM_COMPILER_EXEEXT was seen.  This macro
+dnl is hooked onto _AC_COMPILER_EXEEXT early, see below.
+AC_CONFIG_COMMANDS_PRE(dnl
+[m4_provide_if([_AM_COMPILER_EXEEXT],
+  [AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])])])dnl
+])
+m4trace:/usr/share/aclocal-1.11/init.m4:126: -1- AC_DEFUN([_AC_AM_CONFIG_HEADER_HOOK], [# Compute $1's index in $config_headers.
+_am_arg=$1
+_am_stamp_count=1
+for _am_header in $config_headers :; do
+  case $_am_header in
+    $_am_arg | $_am_arg:* )
+      break ;;
+    * )
+      _am_stamp_count=`expr $_am_stamp_count + 1` ;;
+  esac
+done
+echo "timestamp for $_am_arg" >`AS_DIRNAME(["$_am_arg"])`/stamp-h[]$_am_stamp_count])
+m4trace:/usr/share/aclocal-1.11/install-sh.m4:14: -1- AC_DEFUN([AM_PROG_INSTALL_SH], [AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
+if test x"${install_sh}" != xset; then
+  case $am_aux_dir in
+  *\ * | *\	*)
+    install_sh="\${SHELL} '$am_aux_dir/install-sh'" ;;
+  *)
+    install_sh="\${SHELL} $am_aux_dir/install-sh"
+  esac
+fi
+AC_SUBST(install_sh)])
+m4trace:/usr/share/aclocal-1.11/lead-dot.m4:12: -1- AC_DEFUN([AM_SET_LEADING_DOT], [rm -rf .tst 2>/dev/null
+mkdir .tst 2>/dev/null
+if test -d .tst; then
+  am__leading_dot=.
+else
+  am__leading_dot=_
+fi
+rmdir .tst 2>/dev/null
+AC_SUBST([am__leading_dot])])
+m4trace:/usr/share/aclocal-1.11/maintainer.m4:19: -1- AC_DEFUN([AM_MAINTAINER_MODE], [m4_case(m4_default([$1], [disable]),
+       [enable], [m4_define([am_maintainer_other], [disable])],
+       [disable], [m4_define([am_maintainer_other], [enable])],
+       [m4_define([am_maintainer_other], [enable])
+        m4_warn([syntax], [unexpected argument to AM@&t@_MAINTAINER_MODE: $1])])
+AC_MSG_CHECKING([whether to enable maintainer-specific portions of Makefiles])
+  dnl maintainer-mode's default is 'disable' unless 'enable' is passed
+  AC_ARG_ENABLE([maintainer-mode],
+[  --][am_maintainer_other][-maintainer-mode  am_maintainer_other make rules and dependencies not useful
+			  (and sometimes confusing) to the casual installer],
+      [USE_MAINTAINER_MODE=$enableval],
+      [USE_MAINTAINER_MODE=]m4_if(am_maintainer_other, [enable], [no], [yes]))
+  AC_MSG_RESULT([$USE_MAINTAINER_MODE])
+  AM_CONDITIONAL([MAINTAINER_MODE], [test $USE_MAINTAINER_MODE = yes])
+  MAINT=$MAINTAINER_MODE_TRUE
+  AC_SUBST([MAINT])dnl
+
+])
+m4trace:/usr/share/aclocal-1.11/maintainer.m4:39: -1- AU_DEFUN([jm_MAINTAINER_MODE], [AM_MAINTAINER_MODE])
+m4trace:/usr/share/aclocal-1.11/maintainer.m4:39: -1- AC_DEFUN([jm_MAINTAINER_MODE], [AC_DIAGNOSE([obsolete], [The macro `jm_MAINTAINER_MODE' is obsolete.
+You should run autoupdate.])dnl
+AM_MAINTAINER_MODE])
+m4trace:/usr/share/aclocal-1.11/make.m4:14: -1- AC_DEFUN([AM_MAKE_INCLUDE], [am_make=${MAKE-make}
+cat > confinc << 'END'
+am__doit:
+	@echo this is the am__doit target
+.PHONY: am__doit
+END
+# If we don't find an include directive, just comment out the code.
+AC_MSG_CHECKING([for style of include used by $am_make])
+am__include="#"
+am__quote=
+_am_result=none
+# First try GNU make style include.
+echo "include confinc" > confmf
+# Ignore all kinds of additional output from `make'.
+case `$am_make -s -f confmf 2> /dev/null` in #(
+*the\ am__doit\ target*)
+  am__include=include
+  am__quote=
+  _am_result=GNU
+  ;;
+esac
+# Now try BSD make style include.
+if test "$am__include" = "#"; then
+   echo '.include "confinc"' > confmf
+   case `$am_make -s -f confmf 2> /dev/null` in #(
+   *the\ am__doit\ target*)
+     am__include=.include
+     am__quote="\""
+     _am_result=BSD
+     ;;
+   esac
+fi
+AC_SUBST([am__include])
+AC_SUBST([am__quote])
+AC_MSG_RESULT([$_am_result])
+rm -f confinc confmf
+])
+m4trace:/usr/share/aclocal-1.11/minuso.m4:14: -1- AC_DEFUN([AM_PROG_CC_C_O], [AC_REQUIRE([AC_PROG_CC_C_O])dnl
+AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
+AC_REQUIRE_AUX_FILE([compile])dnl
+# FIXME: we rely on the cache variable name because
+# there is no other way.
+set dummy $CC
+am_cc=`echo $[2] | sed ['s/[^a-zA-Z0-9_]/_/g;s/^[0-9]/_/']`
+eval am_t=\$ac_cv_prog_cc_${am_cc}_c_o
+if test "$am_t" != yes; then
+   # Losing compiler, so override with the script.
+   # FIXME: It is wrong to rewrite CC.
+   # But if we don't then we get into trouble of one sort or another.
+   # A longer-term fix would be to have automake use am__CC in this case,
+   # and then we could set am__CC="\$(top_srcdir)/compile \$(CC)"
+   CC="$am_aux_dir/compile $CC"
+fi
+dnl Make sure AC_PROG_CC is never called again, or it will override our
+dnl setting of CC.
+m4_define([AC_PROG_CC],
+          [m4_fatal([AC_PROG_CC cannot be called after AM_PROG_CC_C_O])])
+])
+m4trace:/usr/share/aclocal-1.11/missing.m4:14: -1- AC_DEFUN([AM_MISSING_PROG], [AC_REQUIRE([AM_MISSING_HAS_RUN])
+$1=${$1-"${am_missing_run}$2"}
+AC_SUBST($1)])
+m4trace:/usr/share/aclocal-1.11/missing.m4:24: -1- AC_DEFUN([AM_MISSING_HAS_RUN], [AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
+AC_REQUIRE_AUX_FILE([missing])dnl
+if test x"${MISSING+set}" != xset; then
+  case $am_aux_dir in
+  *\ * | *\	*)
+    MISSING="\${SHELL} \"$am_aux_dir/missing\"" ;;
+  *)
+    MISSING="\${SHELL} $am_aux_dir/missing" ;;
+  esac
+fi
+# Use eval to expand $SHELL
+if eval "$MISSING --run true"; then
+  am_missing_run="$MISSING --run "
+else
+  am_missing_run=
+  AC_MSG_WARN([`missing' script is too old or missing])
+fi
+])
+m4trace:/usr/share/aclocal-1.11/mkdirp.m4:14: -1- AC_DEFUN([AM_PROG_MKDIR_P], [AC_PREREQ([2.60])dnl
+AC_REQUIRE([AC_PROG_MKDIR_P])dnl
+dnl Automake 1.8 to 1.9.6 used to define mkdir_p.  We now use MKDIR_P,
+dnl while keeping a definition of mkdir_p for backward compatibility.
+dnl @MKDIR_P@ is magic: AC_OUTPUT adjusts its value for each Makefile.
+dnl However we cannot define mkdir_p as $(MKDIR_P) for the sake of
+dnl Makefile.ins that do not define MKDIR_P, so we do our own
+dnl adjustment using top_builddir (which is defined more often than
+dnl MKDIR_P).
+AC_SUBST([mkdir_p], ["$MKDIR_P"])dnl
+case $mkdir_p in
+  [[\\/$]]* | ?:[[\\/]]*) ;;
+  */*) mkdir_p="\$(top_builddir)/$mkdir_p" ;;
+esac
+])
+m4trace:/usr/share/aclocal-1.11/options.m4:14: -1- AC_DEFUN([_AM_MANGLE_OPTION], [[_AM_OPTION_]m4_bpatsubst($1, [[^a-zA-Z0-9_]], [_])])
+m4trace:/usr/share/aclocal-1.11/options.m4:20: -1- AC_DEFUN([_AM_SET_OPTION], [m4_define(_AM_MANGLE_OPTION([$1]), 1)])
+m4trace:/usr/share/aclocal-1.11/options.m4:26: -1- AC_DEFUN([_AM_SET_OPTIONS], [m4_foreach_w([_AM_Option], [$1], [_AM_SET_OPTION(_AM_Option)])])
+m4trace:/usr/share/aclocal-1.11/options.m4:32: -1- AC_DEFUN([_AM_IF_OPTION], [m4_ifset(_AM_MANGLE_OPTION([$1]), [$2], [$3])])
+m4trace:/usr/share/aclocal-1.11/runlog.m4:14: -1- AC_DEFUN([AM_RUN_LOG], [{ echo "$as_me:$LINENO: $1" >&AS_MESSAGE_LOG_FD
+   ($1) >&AS_MESSAGE_LOG_FD 2>&AS_MESSAGE_LOG_FD
+   ac_status=$?
+   echo "$as_me:$LINENO: \$? = $ac_status" >&AS_MESSAGE_LOG_FD
+   (exit $ac_status); }])
+m4trace:/usr/share/aclocal-1.11/sanity.m4:14: -1- AC_DEFUN([AM_SANITY_CHECK], [AC_MSG_CHECKING([whether build environment is sane])
+# Just in case
+sleep 1
+echo timestamp > conftest.file
+# Reject unsafe characters in $srcdir or the absolute working directory
+# name.  Accept space and tab only in the latter.
+am_lf='
+'
+case `pwd` in
+  *[[\\\"\#\$\&\'\`$am_lf]]*)
+    AC_MSG_ERROR([unsafe absolute working directory name]);;
+esac
+case $srcdir in
+  *[[\\\"\#\$\&\'\`$am_lf\ \	]]*)
+    AC_MSG_ERROR([unsafe srcdir value: `$srcdir']);;
+esac
+
+# Do `set' in a subshell so we don't clobber the current shell's
+# arguments.  Must try -L first in case configure is actually a
+# symlink; some systems play weird games with the mod time of symlinks
+# (eg FreeBSD returns the mod time of the symlink's containing
+# directory).
+if (
+   set X `ls -Lt "$srcdir/configure" conftest.file 2> /dev/null`
+   if test "$[*]" = "X"; then
+      # -L didn't work.
+      set X `ls -t "$srcdir/configure" conftest.file`
+   fi
+   rm -f conftest.file
+   if test "$[*]" != "X $srcdir/configure conftest.file" \
+      && test "$[*]" != "X conftest.file $srcdir/configure"; then
+
+      # If neither matched, then we have a broken ls.  This can happen
+      # if, for instance, CONFIG_SHELL is bash and it inherits a
+      # broken ls alias from the environment.  This has actually
+      # happened.  Such a system could not be considered "sane".
+      AC_MSG_ERROR([ls -t appears to fail.  Make sure there is not a broken
+alias in your environment])
+   fi
+
+   test "$[2]" = conftest.file
+   )
+then
+   # Ok.
+   :
+else
+   AC_MSG_ERROR([newly created file is older than distributed files!
+Check your system clock])
+fi
+AC_MSG_RESULT(yes)])
+m4trace:/usr/share/aclocal-1.11/silent.m4:14: -1- AC_DEFUN([AM_SILENT_RULES], [AC_ARG_ENABLE([silent-rules],
+[  --enable-silent-rules          less verbose build output (undo: `make V=1')
+  --disable-silent-rules         verbose build output (undo: `make V=0')])
+case $enable_silent_rules in
+yes) AM_DEFAULT_VERBOSITY=0;;
+no)  AM_DEFAULT_VERBOSITY=1;;
+*)   AM_DEFAULT_VERBOSITY=m4_if([$1], [yes], [0], [1]);;
+esac
+dnl
+dnl A few `make' implementations (e.g., NonStop OS and NextStep)
+dnl do not support nested variable expansions.
+dnl See automake bug#9928 and bug#10237.
+am_make=${MAKE-make}
+AC_CACHE_CHECK([whether $am_make supports nested variables],
+   [am_cv_make_support_nested_variables],
+   [if AS_ECHO([['TRUE=$(BAR$(V))
+BAR0=false
+BAR1=true
+V=1
+am__doit:
+	@$(TRUE)
+.PHONY: am__doit']]) | $am_make -f - >/dev/null 2>&1; then
+  am_cv_make_support_nested_variables=yes
+else
+  am_cv_make_support_nested_variables=no
+fi])
+if test $am_cv_make_support_nested_variables = yes; then
+  dnl Using `$V' instead of `$(V)' breaks IRIX make.
+  AM_V='$(V)'
+  AM_DEFAULT_V='$(AM_DEFAULT_VERBOSITY)'
+else
+  AM_V=$AM_DEFAULT_VERBOSITY
+  AM_DEFAULT_V=$AM_DEFAULT_VERBOSITY
+fi
+AC_SUBST([AM_V])dnl
+AM_SUBST_NOTMAKE([AM_V])dnl
+AC_SUBST([AM_DEFAULT_V])dnl
+AM_SUBST_NOTMAKE([AM_DEFAULT_V])dnl
+AC_SUBST([AM_DEFAULT_VERBOSITY])dnl
+AM_BACKSLASH='\'
+AC_SUBST([AM_BACKSLASH])dnl
+_AM_SUBST_NOTMAKE([AM_BACKSLASH])dnl
+])
+m4trace:/usr/share/aclocal-1.11/strip.m4:19: -1- AC_DEFUN([AM_PROG_INSTALL_STRIP], [AC_REQUIRE([AM_PROG_INSTALL_SH])dnl
+# Installed binaries are usually stripped using `strip' when the user
+# run `make install-strip'.  However `strip' might not be the right
+# tool to use in cross-compilation environments, therefore Automake
+# will honor the `STRIP' environment variable to overrule this program.
+dnl Don't test for $cross_compiling = yes, because it might be `maybe'.
+if test "$cross_compiling" != no; then
+  AC_CHECK_TOOL([STRIP], [strip], :)
+fi
+INSTALL_STRIP_PROGRAM="\$(install_sh) -c -s"
+AC_SUBST([INSTALL_STRIP_PROGRAM])])
+m4trace:/usr/share/aclocal-1.11/substnot.m4:14: -1- AC_DEFUN([_AM_SUBST_NOTMAKE])
+m4trace:/usr/share/aclocal-1.11/substnot.m4:19: -1- AC_DEFUN([AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE($@)])
+m4trace:/usr/share/aclocal-1.11/tar.m4:24: -1- AC_DEFUN([_AM_PROG_TAR], [# Always define AMTAR for backward compatibility.  Yes, it's still used
+# in the wild :-(  We should find a proper way to deprecate it ...
+AC_SUBST([AMTAR], ['$${TAR-tar}'])
+m4_if([$1], [v7],
+     [am__tar='$${TAR-tar} chof - "$$tardir"' am__untar='$${TAR-tar} xf -'],
+     [m4_case([$1], [ustar],, [pax],,
+              [m4_fatal([Unknown tar format])])
+AC_MSG_CHECKING([how to create a $1 tar archive])
+# Loop over all known methods to create a tar archive until one works.
+_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) pax cpio none'
+_am_tools=${am_cv_prog_tar_$1-$_am_tools}
+# Do not fold the above two line into one, because Tru64 sh and
+# Solaris sh will not grok spaces in the rhs of `-'.
+for _am_tool in $_am_tools
+do
+  case $_am_tool in
+  gnutar)
+    for _am_tar in tar gnutar gtar;
+    do
+      AM_RUN_LOG([$_am_tar --version]) && break
+    done
+    am__tar="$_am_tar --format=m4_if([$1], [pax], [posix], [$1]) -chf - "'"$$tardir"'
+    am__tar_="$_am_tar --format=m4_if([$1], [pax], [posix], [$1]) -chf - "'"$tardir"'
+    am__untar="$_am_tar -xf -"
+    ;;
+  plaintar)
+    # Must skip GNU tar: if it does not support --format= it doesn't create
+    # ustar tarball either.
+    (tar --version) >/dev/null 2>&1 && continue
+    am__tar='tar chf - "$$tardir"'
+    am__tar_='tar chf - "$tardir"'
+    am__untar='tar xf -'
+    ;;
+  pax)
+    am__tar='pax -L -x $1 -w "$$tardir"'
+    am__tar_='pax -L -x $1 -w "$tardir"'
+    am__untar='pax -r'
+    ;;
+  cpio)
+    am__tar='find "$$tardir" -print | cpio -o -H $1 -L'
+    am__tar_='find "$tardir" -print | cpio -o -H $1 -L'
+    am__untar='cpio -i -H $1 -d'
+    ;;
+  none)
+    am__tar=false
+    am__tar_=false
+    am__untar=false
+    ;;
+  esac
+
+  # If the value was cached, stop now.  We just wanted to have am__tar
+  # and am__untar set.
+  test -n "${am_cv_prog_tar_$1}" && break
+
+  # tar/untar a dummy directory, and stop if the command works
+  rm -rf conftest.dir
+  mkdir conftest.dir
+  echo GrepMe > conftest.dir/file
+  AM_RUN_LOG([tardir=conftest.dir && eval $am__tar_ >conftest.tar])
+  rm -rf conftest.dir
+  if test -s conftest.tar; then
+    AM_RUN_LOG([$am__untar <conftest.tar])
+    grep GrepMe conftest.dir/file >/dev/null 2>&1 && break
+  fi
+done
+rm -rf conftest.dir
+
+AC_CACHE_VAL([am_cv_prog_tar_$1], [am_cv_prog_tar_$1=$_am_tool])
+AC_MSG_RESULT([$am_cv_prog_tar_$1])])
+AC_SUBST([am__tar])
+AC_SUBST([am__untar])
+])
+m4trace:m4/00gnulib.m4:30: -1- AC_DEFUN([gl_00GNULIB])
+m4trace:m4/extensions.m4:37: -1- AC_DEFUN_ONCE([AC_USE_SYSTEM_EXTENSIONS], [AC_BEFORE([$0], [AC_COMPILE_IFELSE])dnl
+AC_BEFORE([$0], [AC_RUN_IFELSE])dnl
+
+  AC_REQUIRE([AC_CANONICAL_HOST])
+
+  AC_CHECK_HEADER([minix/config.h], [MINIX=yes], [MINIX=])
+  if test "$MINIX" = yes; then
+    AC_DEFINE([_POSIX_SOURCE], [1],
+      [Define to 1 if you need to in order for `stat' and other
+       things to work.])
+    AC_DEFINE([_POSIX_1_SOURCE], [2],
+      [Define to 2 if the system does not provide POSIX.1 features
+       except with this defined.])
+    AC_DEFINE([_MINIX], [1],
+      [Define to 1 if on MINIX.])
+  fi
+
+  dnl HP-UX 11.11 defines mbstate_t only if _XOPEN_SOURCE is defined to 500,
+  dnl regardless of whether the flags -Ae or _D_HPUX_SOURCE=1 are already
+  dnl provided.
+  case "$host_os" in
+    hpux*)
+      AC_DEFINE([_XOPEN_SOURCE], [500],
+        [Define to 500 only on HP-UX.])
+      ;;
+  esac
+
+  AH_VERBATIM([__EXTENSIONS__],
+[/* Enable extensions on AIX 3, Interix.  */
+#ifndef _ALL_SOURCE
+# undef _ALL_SOURCE
+#endif
+/* Enable GNU extensions on systems that have them.  */
+#ifndef _GNU_SOURCE
+# undef _GNU_SOURCE
+#endif
+/* Enable threading extensions on Solaris.  */
+#ifndef _POSIX_PTHREAD_SEMANTICS
+# undef _POSIX_PTHREAD_SEMANTICS
+#endif
+/* Enable extensions on HP NonStop.  */
+#ifndef _TANDEM_SOURCE
+# undef _TANDEM_SOURCE
+#endif
+/* Enable general extensions on Solaris.  */
+#ifndef __EXTENSIONS__
+# undef __EXTENSIONS__
+#endif
+])
+  AC_CACHE_CHECK([whether it is safe to define __EXTENSIONS__],
+    [ac_cv_safe_to_define___extensions__],
+    [AC_COMPILE_IFELSE(
+       [AC_LANG_PROGRAM([[
+#         define __EXTENSIONS__ 1
+          ]AC_INCLUDES_DEFAULT])],
+       [ac_cv_safe_to_define___extensions__=yes],
+       [ac_cv_safe_to_define___extensions__=no])])
+  test $ac_cv_safe_to_define___extensions__ = yes &&
+    AC_DEFINE([__EXTENSIONS__])
+  AC_DEFINE([_ALL_SOURCE])
+  AC_DEFINE([_GNU_SOURCE])
+  AC_DEFINE([_POSIX_PTHREAD_SEMANTICS])
+  AC_DEFINE([_TANDEM_SOURCE])
+])
+m4trace:m4/extensions.m4:107: -1- AC_DEFUN_ONCE([gl_USE_SYSTEM_EXTENSIONS], [
+  dnl Require this macro before AC_USE_SYSTEM_EXTENSIONS.
+  dnl gnulib does not need it. But if it gets required by third-party macros
+  dnl after AC_USE_SYSTEM_EXTENSIONS is required, autoconf 2.62..2.63 emit a
+  dnl warning: "AC_COMPILE_IFELSE was called before AC_USE_SYSTEM_EXTENSIONS".
+  dnl Note: We can do this only for one of the macros AC_AIX, AC_GNU_SOURCE,
+  dnl AC_MINIX. If people still use AC_AIX or AC_MINIX, they are out of luck.
+  AC_REQUIRE([AC_GNU_SOURCE])
+
+  AC_REQUIRE([AC_USE_SYSTEM_EXTENSIONS])
+])
+m4trace:m4/gnulib-common.m4:9: -1- AC_DEFUN([gl_COMMON], [
+  dnl Use AC_REQUIRE here, so that the code is expanded once only.
+  AC_REQUIRE([gl_00GNULIB])
+  AC_REQUIRE([gl_COMMON_BODY])
+])
+m4trace:m4/gnulib-common.m4:14: -1- AC_DEFUN([gl_COMMON_BODY], [
+  AH_VERBATIM([isoc99_inline],
+[/* Work around a bug in Apple GCC 4.0.1 build 5465: In C99 mode, it supports
+   the ISO C 99 semantics of 'extern inline' (unlike the GNU C semantics of
+   earlier versions), but does not display it by setting __GNUC_STDC_INLINE__.
+   __APPLE__ && __MACH__ test for MacOS X.
+   __APPLE_CC__ tests for the Apple compiler and its version.
+   __STDC_VERSION__ tests for the C99 mode.  */
+#if defined __APPLE__ && defined __MACH__ && __APPLE_CC__ >= 5465 && !defined __cplusplus && __STDC_VERSION__ >= 199901L && !defined __GNUC_STDC_INLINE__
+# define __GNUC_STDC_INLINE__ 1
+#endif])
+  AH_VERBATIM([unused_parameter],
+[/* Define as a marker that can be attached to declarations that might not
+    be used.  This helps to reduce warnings, such as from
+    GCC -Wunused-parameter.  */
+#if __GNUC__ >= 3 || (__GNUC__ == 2 && __GNUC_MINOR__ >= 7)
+# define _GL_UNUSED __attribute__ ((__unused__))
+#else
+# define _GL_UNUSED
+#endif
+/* The name _UNUSED_PARAMETER_ is an earlier spelling, although the name
+   is a misnomer outside of parameter lists.  */
+#define _UNUSED_PARAMETER_ _GL_UNUSED
+
+/* The __pure__ attribute was added in gcc 2.96.  */
+#if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ >= 96)
+# define _GL_ATTRIBUTE_PURE __attribute__ ((__pure__))
+#else
+# define _GL_ATTRIBUTE_PURE /* empty */
+#endif
+
+/* The __const__ attribute was added in gcc 2.95.  */
+#if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ >= 95)
+# define _GL_ATTRIBUTE_CONST __attribute__ ((__const__))
+#else
+# define _GL_ATTRIBUTE_CONST /* empty */
+#endif
+])
+  dnl Preparation for running test programs:
+  dnl Tell glibc to write diagnostics from -D_FORTIFY_SOURCE=2 to stderr, not
+  dnl to /dev/tty, so they can be redirected to log files.  Such diagnostics
+  dnl arise e.g., in the macros gl_PRINTF_DIRECTIVE_N, gl_SNPRINTF_DIRECTIVE_N.
+  LIBC_FATAL_STDERR_=1
+  export LIBC_FATAL_STDERR_
+])
+m4trace:m4/gnulib-common.m4:69: -1- AC_DEFUN([gl_MODULE_INDICATOR_SET_VARIABLE], [
+  gl_MODULE_INDICATOR_SET_VARIABLE_AUX(
+    [GNULIB_[]m4_translit([[$1]],
+                          [abcdefghijklmnopqrstuvwxyz./-],
+                          [ABCDEFGHIJKLMNOPQRSTUVWXYZ___])],
+    [gl_MODULE_INDICATOR_CONDITION])
+])
+m4trace:m4/gnulib-common.m4:82: -1- AC_DEFUN([gl_MODULE_INDICATOR_SET_VARIABLE_AUX], [
+  m4_if(m4_defn([gl_MODULE_INDICATOR_CONDITION]), [1],
+    [
+     dnl Simplify the expression VALUE || 1 to 1.
+     $1=1
+    ],
+    [gl_MODULE_INDICATOR_SET_VARIABLE_AUX_OR([$1],
+                                             [gl_MODULE_INDICATOR_CONDITION])])
+])
+m4trace:m4/gnulib-common.m4:96: -1- AC_DEFUN([gl_MODULE_INDICATOR_SET_VARIABLE_AUX_OR], [
+  dnl Simplify the expression 1 || CONDITION to 1.
+  if test "$[]$1" != 1; then
+    dnl Simplify the expression 0 || CONDITION to CONDITION.
+    if test "$[]$1" = 0; then
+      $1=$2
+    else
+      $1="($[]$1 || $2)"
+    fi
+  fi
+])
+m4trace:m4/gnulib-common.m4:121: -1- AC_DEFUN([gl_MODULE_INDICATOR], [
+  AC_DEFINE_UNQUOTED([GNULIB_]m4_translit([[$1]],
+      [abcdefghijklmnopqrstuvwxyz./-],
+      [ABCDEFGHIJKLMNOPQRSTUVWXYZ___]),
+    [gl_MODULE_INDICATOR_CONDITION],
+    [Define to a C preprocessor expression that evaluates to 1 or 0,
+     depending whether the gnulib module $1 shall be considered present.])
+])
+m4trace:m4/gnulib-common.m4:144: -1- AC_DEFUN([gl_MODULE_INDICATOR_FOR_TESTS], [
+  AC_DEFINE([GNULIB_TEST_]m4_translit([[$1]],
+      [abcdefghijklmnopqrstuvwxyz./-],
+      [ABCDEFGHIJKLMNOPQRSTUVWXYZ___]), [1],
+    [Define to 1 when the gnulib module $1 should be tested.])
+])
+m4trace:m4/gnulib-common.m4:156: -1- AC_DEFUN([gl_ASSERT_NO_GNULIB_POSIXCHECK], [
+  dnl Override gl_WARN_ON_USE_PREPARE.
+  dnl But hide this definition from 'aclocal'.
+  AC_DEFUN([gl_W][ARN_ON_USE_PREPARE], [])
+])
+m4trace:m4/gnulib-common.m4:167: -1- AC_DEFUN([gl_ASSERT_NO_GNULIB_TESTS], [
+  dnl Override gl_MODULE_INDICATOR_FOR_TESTS.
+  AC_DEFUN([gl_MODULE_INDICATOR_FOR_TESTS], [])
+])
+m4trace:m4/gnulib-common.m4:175: -1- AC_DEFUN([gl_FEATURES_H], [
+  AC_CHECK_HEADERS_ONCE([features.h])
+  if test $ac_cv_header_features_h = yes; then
+    HAVE_FEATURES_H=1
+  else
+    HAVE_FEATURES_H=0
+  fi
+  AC_SUBST([HAVE_FEATURES_H])
+])
+m4trace:m4/gnulib-common.m4:266: -1- AC_DEFUN([gl_BIGENDIAN], [
+  AC_C_BIGENDIAN
+])
+m4trace:m4/gnulib-common.m4:276: -1- AC_DEFUN([gl_CACHE_VAL_SILENT], [
+  saved_as_echo_n="$as_echo_n"
+  as_echo_n=':'
+  AC_CACHE_VAL([$1], [$2])
+  as_echo_n="$saved_as_echo_n"
+])
+m4trace:m4/gnulib-comp.m4:22: -1- AC_DEFUN([gl_EARLY], [
+  m4_pattern_forbid([^gl_[A-Z]])dnl the gnulib macro namespace
+  m4_pattern_allow([^gl_ES$])dnl a valid locale name
+  m4_pattern_allow([^gl_LIBOBJS$])dnl a variable
+  m4_pattern_allow([^gl_LTLIBOBJS$])dnl a variable
+  AC_REQUIRE([AC_PROG_RANLIB])
+  # Code from module arg-nonnull:
+  # Code from module c++defs:
+  # Code from module extensions:
+  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
+  # Code from module include_next:
+  # Code from module memchr:
+  # Code from module memmem:
+  # Code from module memmem-simple:
+  # Code from module multiarch:
+  # Code from module sigaction:
+  # Code from module signal:
+  # Code from module sigprocmask:
+  # Code from module stddef:
+  # Code from module stdint:
+  # Code from module string:
+  # Code from module warn-on-use:
+])
+m4trace:m4/gnulib-comp.m4:49: -1- AC_DEFUN([gl_INIT], [
+  AM_CONDITIONAL([GL_COND_LIBTOOL], [false])
+  gl_cond_libtool=false
+  gl_libdeps=
+  gl_ltlibdeps=
+  gl_m4_base='m4'
+  m4_pushdef([AC_LIBOBJ], m4_defn([gl_LIBOBJ]))
+  m4_pushdef([AC_REPLACE_FUNCS], m4_defn([gl_REPLACE_FUNCS]))
+  m4_pushdef([AC_LIBSOURCES], m4_defn([gl_LIBSOURCES]))
+  m4_pushdef([gl_LIBSOURCES_LIST], [])
+  m4_pushdef([gl_LIBSOURCES_DIR], [])
+  gl_COMMON
+  gl_source_base='lib'
+gl_FUNC_MEMCHR
+if test $HAVE_MEMCHR = 0 || test $REPLACE_MEMCHR = 1; then
+  AC_LIBOBJ([memchr])
+  gl_PREREQ_MEMCHR
+fi
+gl_STRING_MODULE_INDICATOR([memchr])
+gl_FUNC_MEMMEM
+if test $HAVE_MEMMEM = 0 || test $REPLACE_MEMMEM = 1; then
+  AC_LIBOBJ([memmem])
+fi
+gl_FUNC_MEMMEM_SIMPLE
+if test $HAVE_MEMMEM = 0 || test $REPLACE_MEMMEM = 1; then
+  AC_LIBOBJ([memmem])
+fi
+gl_STRING_MODULE_INDICATOR([memmem])
+gl_MULTIARCH
+gl_SIGACTION
+if test $HAVE_SIGACTION = 0; then
+  AC_LIBOBJ([sigaction])
+  gl_PREREQ_SIGACTION
+fi
+gl_SIGNAL_MODULE_INDICATOR([sigaction])
+gl_SIGNAL_H
+gl_SIGNALBLOCKING
+if test $HAVE_POSIX_SIGNALBLOCKING = 0; then
+  AC_LIBOBJ([sigprocmask])
+  gl_PREREQ_SIGPROCMASK
+fi
+gl_SIGNAL_MODULE_INDICATOR([sigprocmask])
+gl_STDDEF_H
+gl_STDINT_H
+gl_HEADER_STRING_H
+  # End of code from modules
+  m4_ifval(gl_LIBSOURCES_LIST, [
+    m4_syscmd([test ! -d ]m4_defn([gl_LIBSOURCES_DIR])[ ||
+      for gl_file in ]gl_LIBSOURCES_LIST[ ; do
+        if test ! -r ]m4_defn([gl_LIBSOURCES_DIR])[/$gl_file ; then
+          echo "missing file ]m4_defn([gl_LIBSOURCES_DIR])[/$gl_file" >&2
+          exit 1
+        fi
+      done])dnl
+      m4_if(m4_sysval, [0], [],
+        [AC_FATAL([expected source file, required through AC_LIBSOURCES, not found])])
+  ])
+  m4_popdef([gl_LIBSOURCES_DIR])
+  m4_popdef([gl_LIBSOURCES_LIST])
+  m4_popdef([AC_LIBSOURCES])
+  m4_popdef([AC_REPLACE_FUNCS])
+  m4_popdef([AC_LIBOBJ])
+  AC_CONFIG_COMMANDS_PRE([
+    gl_libobjs=
+    gl_ltlibobjs=
+    if test -n "$gl_LIBOBJS"; then
+      # Remove the extension.
+      sed_drop_objext='s/\.o$//;s/\.obj$//'
+      for i in `for i in $gl_LIBOBJS; do echo "$i"; done | sed -e "$sed_drop_objext" | sort | uniq`; do
+        gl_libobjs="$gl_libobjs $i.$ac_objext"
+        gl_ltlibobjs="$gl_ltlibobjs $i.lo"
+      done
+    fi
+    AC_SUBST([gl_LIBOBJS], [$gl_libobjs])
+    AC_SUBST([gl_LTLIBOBJS], [$gl_ltlibobjs])
+  ])
+  gltests_libdeps=
+  gltests_ltlibdeps=
+  m4_pushdef([AC_LIBOBJ], m4_defn([gltests_LIBOBJ]))
+  m4_pushdef([AC_REPLACE_FUNCS], m4_defn([gltests_REPLACE_FUNCS]))
+  m4_pushdef([AC_LIBSOURCES], m4_defn([gltests_LIBSOURCES]))
+  m4_pushdef([gltests_LIBSOURCES_LIST], [])
+  m4_pushdef([gltests_LIBSOURCES_DIR], [])
+  gl_COMMON
+  gl_source_base='tests'
+changequote(,)dnl
+  gltests_WITNESS=IN_`echo "${PACKAGE-$PACKAGE_TARNAME}" | LC_ALL=C tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ | LC_ALL=C sed -e 's/[^A-Z0-9_]/_/g'`_GNULIB_TESTS
+changequote([, ])dnl
+  AC_SUBST([gltests_WITNESS])
+  gl_module_indicator_condition=$gltests_WITNESS
+  m4_pushdef([gl_MODULE_INDICATOR_CONDITION], [$gl_module_indicator_condition])
+  m4_popdef([gl_MODULE_INDICATOR_CONDITION])
+  m4_ifval(gltests_LIBSOURCES_LIST, [
+    m4_syscmd([test ! -d ]m4_defn([gltests_LIBSOURCES_DIR])[ ||
+      for gl_file in ]gltests_LIBSOURCES_LIST[ ; do
+        if test ! -r ]m4_defn([gltests_LIBSOURCES_DIR])[/$gl_file ; then
+          echo "missing file ]m4_defn([gltests_LIBSOURCES_DIR])[/$gl_file" >&2
+          exit 1
+        fi
+      done])dnl
+      m4_if(m4_sysval, [0], [],
+        [AC_FATAL([expected source file, required through AC_LIBSOURCES, not found])])
+  ])
+  m4_popdef([gltests_LIBSOURCES_DIR])
+  m4_popdef([gltests_LIBSOURCES_LIST])
+  m4_popdef([AC_LIBSOURCES])
+  m4_popdef([AC_REPLACE_FUNCS])
+  m4_popdef([AC_LIBOBJ])
+  AC_CONFIG_COMMANDS_PRE([
+    gltests_libobjs=
+    gltests_ltlibobjs=
+    if test -n "$gltests_LIBOBJS"; then
+      # Remove the extension.
+      sed_drop_objext='s/\.o$//;s/\.obj$//'
+      for i in `for i in $gltests_LIBOBJS; do echo "$i"; done | sed -e "$sed_drop_objext" | sort | uniq`; do
+        gltests_libobjs="$gltests_libobjs $i.$ac_objext"
+        gltests_ltlibobjs="$gltests_ltlibobjs $i.lo"
+      done
+    fi
+    AC_SUBST([gltests_LIBOBJS], [$gltests_libobjs])
+    AC_SUBST([gltests_LTLIBOBJS], [$gltests_ltlibobjs])
+  ])
+  LIBGNU_LIBDEPS="$gl_libdeps"
+  AC_SUBST([LIBGNU_LIBDEPS])
+  LIBGNU_LTLIBDEPS="$gl_ltlibdeps"
+  AC_SUBST([LIBGNU_LTLIBDEPS])
+])
+m4trace:m4/gnulib-comp.m4:180: -1- AC_DEFUN([gl_LIBOBJ], [
+  AS_LITERAL_IF([$1], [gl_LIBSOURCES([$1.c])])dnl
+  gl_LIBOBJS="$gl_LIBOBJS $1.$ac_objext"
+])
+m4trace:m4/gnulib-comp.m4:187: -1- AC_DEFUN([gl_REPLACE_FUNCS], [
+  m4_foreach_w([gl_NAME], [$1], [AC_LIBSOURCES(gl_NAME[.c])])dnl
+  AC_CHECK_FUNCS([$1], , [gl_LIBOBJ($ac_func)])
+])
+m4trace:m4/gnulib-comp.m4:196: -1- AC_DEFUN([gl_LIBSOURCES], [
+  m4_foreach([_gl_NAME], [$1], [
+    m4_if(_gl_NAME, [alloca.c], [], [
+      m4_define([gl_LIBSOURCES_DIR], [lib])
+      m4_append([gl_LIBSOURCES_LIST], _gl_NAME, [ ])
+    ])
+  ])
+])
+m4trace:m4/gnulib-comp.m4:207: -1- AC_DEFUN([gltests_LIBOBJ], [
+  AS_LITERAL_IF([$1], [gltests_LIBSOURCES([$1.c])])dnl
+  gltests_LIBOBJS="$gltests_LIBOBJS $1.$ac_objext"
+])
+m4trace:m4/gnulib-comp.m4:214: -1- AC_DEFUN([gltests_REPLACE_FUNCS], [
+  m4_foreach_w([gl_NAME], [$1], [AC_LIBSOURCES(gl_NAME[.c])])dnl
+  AC_CHECK_FUNCS([$1], , [gltests_LIBOBJ($ac_func)])
+])
+m4trace:m4/gnulib-comp.m4:223: -1- AC_DEFUN([gltests_LIBSOURCES], [
+  m4_foreach([_gl_NAME], [$1], [
+    m4_if(_gl_NAME, [alloca.c], [], [
+      m4_define([gltests_LIBSOURCES_DIR], [tests])
+      m4_append([gltests_LIBSOURCES_LIST], _gl_NAME, [ ])
+    ])
+  ])
+])
+m4trace:m4/gnulib-comp.m4:234: -1- AC_DEFUN([gl_FILE_LIST], [
+  build-aux/arg-nonnull.h
+  build-aux/c++defs.h
+  build-aux/warn-on-use.h
+  lib/dummy.c
+  lib/memchr.c
+  lib/memchr.valgrind
+  lib/memmem.c
+  lib/sig-handler.h
+  lib/sigaction.c
+  lib/signal.in.h
+  lib/sigprocmask.c
+  lib/stddef.in.h
+  lib/stdint.in.h
+  lib/str-two-way.h
+  lib/string.in.h
+  m4/00gnulib.m4
+  m4/extensions.m4
+  m4/gnulib-common.m4
+  m4/include_next.m4
+  m4/longlong.m4
+  m4/memchr.m4
+  m4/memmem.m4
+  m4/mmap-anon.m4
+  m4/multiarch.m4
+  m4/onceonly.m4
+  m4/sigaction.m4
+  m4/signal_h.m4
+  m4/signalblocking.m4
+  m4/stddef_h.m4
+  m4/stdint.m4
+  m4/string_h.m4
+  m4/warn-on-use.m4
+  m4/wchar_t.m4
+])
+m4trace:m4/include_next.m4:35: -1- AC_DEFUN([gl_INCLUDE_NEXT], [
+  AC_LANG_PREPROC_REQUIRE()
+  AC_CACHE_CHECK([whether the preprocessor supports include_next],
+    [gl_cv_have_include_next],
+    [rm -rf conftestd1a conftestd1b conftestd2
+     mkdir conftestd1a conftestd1b conftestd2
+     dnl IBM C 9.0, 10.1 (original versions, prior to the 2009-01 updates) on
+     dnl AIX 6.1 support include_next when used as first preprocessor directive
+     dnl in a file, but not when preceded by another include directive. Check
+     dnl for this bug by including <stdio.h>.
+     dnl Additionally, with this same compiler, include_next is a no-op when
+     dnl used in a header file that was included by specifying its absolute
+     dnl file name. Despite these two bugs, include_next is used in the
+     dnl compiler's <math.h>. By virtue of the second bug, we need to use
+     dnl include_next as well in this case.
+     cat <<EOF > conftestd1a/conftest.h
+#define DEFINED_IN_CONFTESTD1
+#include_next <conftest.h>
+#ifdef DEFINED_IN_CONFTESTD2
+int foo;
+#else
+#error "include_next doesn't work"
+#endif
+EOF
+     cat <<EOF > conftestd1b/conftest.h
+#define DEFINED_IN_CONFTESTD1
+#include <stdio.h>
+#include_next <conftest.h>
+#ifdef DEFINED_IN_CONFTESTD2
+int foo;
+#else
+#error "include_next doesn't work"
+#endif
+EOF
+     cat <<EOF > conftestd2/conftest.h
+#ifndef DEFINED_IN_CONFTESTD1
+#error "include_next test doesn't work"
+#endif
+#define DEFINED_IN_CONFTESTD2
+EOF
+     gl_save_CPPFLAGS="$CPPFLAGS"
+     CPPFLAGS="$gl_save_CPPFLAGS -Iconftestd1b -Iconftestd2"
+dnl We intentionally avoid using AC_LANG_SOURCE here.
+     AC_COMPILE_IFELSE([AC_LANG_DEFINES_PROVIDED[#include <conftest.h>]],
+       [gl_cv_have_include_next=yes],
+       [CPPFLAGS="$gl_save_CPPFLAGS -Iconftestd1a -Iconftestd2"
+        AC_COMPILE_IFELSE([AC_LANG_DEFINES_PROVIDED[#include <conftest.h>]],
+          [gl_cv_have_include_next=buggy],
+          [gl_cv_have_include_next=no])
+       ])
+     CPPFLAGS="$gl_save_CPPFLAGS"
+     rm -rf conftestd1a conftestd1b conftestd2
+    ])
+  PRAGMA_SYSTEM_HEADER=
+  if test $gl_cv_have_include_next = yes; then
+    INCLUDE_NEXT=include_next
+    INCLUDE_NEXT_AS_FIRST_DIRECTIVE=include_next
+    if test -n "$GCC"; then
+      PRAGMA_SYSTEM_HEADER='#pragma GCC system_header'
+    fi
+  else
+    if test $gl_cv_have_include_next = buggy; then
+      INCLUDE_NEXT=include
+      INCLUDE_NEXT_AS_FIRST_DIRECTIVE=include_next
+    else
+      INCLUDE_NEXT=include
+      INCLUDE_NEXT_AS_FIRST_DIRECTIVE=include
+    fi
+  fi
+  AC_SUBST([INCLUDE_NEXT])
+  AC_SUBST([INCLUDE_NEXT_AS_FIRST_DIRECTIVE])
+  AC_SUBST([PRAGMA_SYSTEM_HEADER])
+  AC_CACHE_CHECK([whether system header files limit the line length],
+    [gl_cv_pragma_columns],
+    [dnl HP NonStop systems, which define __TANDEM, have this misfeature.
+     AC_EGREP_CPP([choke me],
+       [
+#ifdef __TANDEM
+choke me
+#endif
+       ],
+       [gl_cv_pragma_columns=yes],
+       [gl_cv_pragma_columns=no])
+    ])
+  if test $gl_cv_pragma_columns = yes; then
+    PRAGMA_COLUMNS="#pragma COLUMNS 10000"
+  else
+    PRAGMA_COLUMNS=
+  fi
+  AC_SUBST([PRAGMA_COLUMNS])
+])
+m4trace:m4/include_next.m4:153: -1- AC_DEFUN([gl_CHECK_NEXT_HEADERS], [
+  gl_NEXT_HEADERS_INTERNAL([$1], [check])
+])
+m4trace:m4/include_next.m4:163: -1- AC_DEFUN([gl_NEXT_HEADERS], [
+  gl_NEXT_HEADERS_INTERNAL([$1], [assume])
+])
+m4trace:m4/include_next.m4:169: -1- AC_DEFUN([gl_NEXT_HEADERS_INTERNAL], [
+  AC_REQUIRE([gl_INCLUDE_NEXT])
+  AC_REQUIRE([AC_CANONICAL_HOST])
+
+  m4_if([$2], [check],
+    [AC_CHECK_HEADERS_ONCE([$1])
+    ])
+
+  m4_foreach_w([gl_HEADER_NAME], [$1],
+    [AS_VAR_PUSHDEF([gl_next_header],
+                    [gl_cv_next_]m4_defn([gl_HEADER_NAME]))
+     if test $gl_cv_have_include_next = yes; then
+       AS_VAR_SET([gl_next_header], ['<'gl_HEADER_NAME'>'])
+     else
+       AC_CACHE_CHECK(
+         [absolute name of <]m4_defn([gl_HEADER_NAME])[>],
+         m4_defn([gl_next_header]),
+         [m4_if([$2], [check],
+            [AS_VAR_PUSHDEF([gl_header_exists],
+                            [ac_cv_header_]m4_defn([gl_HEADER_NAME]))
+             if test AS_VAR_GET(gl_header_exists) = yes; then
+             AS_VAR_POPDEF([gl_header_exists])
+            ])
+               AC_LANG_CONFTEST(
+                 [AC_LANG_SOURCE(
+                    [[#include <]]m4_dquote(m4_defn([gl_HEADER_NAME]))[[>]]
+                  )])
+               dnl AIX "xlc -E" and "cc -E" omit #line directives for header
+               dnl files that contain only a #include of other header files and
+               dnl no non-comment tokens of their own. This leads to a failure
+               dnl to detect the absolute name of <dirent.h>, <signal.h>,
+               dnl <poll.h> and others. The workaround is to force preservation
+               dnl of comments through option -C. This ensures all necessary
+               dnl #line directives are present. GCC supports option -C as well.
+               case "$host_os" in
+                 aix*) gl_absname_cpp="$ac_cpp -C" ;;
+                 *)    gl_absname_cpp="$ac_cpp" ;;
+               esac
+               dnl eval is necessary to expand gl_absname_cpp.
+               dnl Ultrix and Pyramid sh refuse to redirect output of eval,
+               dnl so use subshell.
+               AS_VAR_SET([gl_next_header],
+                 ['"'`(eval "$gl_absname_cpp conftest.$ac_ext") 2>&AS_MESSAGE_LOG_FD |
+                  sed -n '\#/]m4_defn([gl_HEADER_NAME])[#{
+                    s#.*"\(.*/]m4_defn([gl_HEADER_NAME])[\)".*#\1#
+                    s#^/[^/]#//&#
+                    p
+                    q
+                  }'`'"'])
+          m4_if([$2], [check],
+            [else
+               AS_VAR_SET([gl_next_header], ['<'gl_HEADER_NAME'>'])
+             fi
+            ])
+         ])
+     fi
+     AC_SUBST(
+       AS_TR_CPP([NEXT_]m4_defn([gl_HEADER_NAME])),
+       [AS_VAR_GET([gl_next_header])])
+     if test $gl_cv_have_include_next = yes || test $gl_cv_have_include_next = buggy; then
+       # INCLUDE_NEXT_AS_FIRST_DIRECTIVE='include_next'
+       gl_next_as_first_directive='<'gl_HEADER_NAME'>'
+     else
+       # INCLUDE_NEXT_AS_FIRST_DIRECTIVE='include'
+       gl_next_as_first_directive=AS_VAR_GET([gl_next_header])
+     fi
+     AC_SUBST(
+       AS_TR_CPP([NEXT_AS_FIRST_DIRECTIVE_]m4_defn([gl_HEADER_NAME])),
+       [$gl_next_as_first_directive])
+     AS_VAR_POPDEF([gl_next_header])])
+])
+m4trace:m4/longlong.m4:17: -1- AC_DEFUN([AC_TYPE_LONG_LONG_INT], [
+  AC_REQUIRE([AC_TYPE_UNSIGNED_LONG_LONG_INT])
+  AC_CACHE_CHECK([for long long int], [ac_cv_type_long_long_int],
+     [ac_cv_type_long_long_int=yes
+      if test "x${ac_cv_prog_cc_c99-no}" = xno; then
+        ac_cv_type_long_long_int=$ac_cv_type_unsigned_long_long_int
+        if test $ac_cv_type_long_long_int = yes; then
+          dnl Catch a bug in Tandem NonStop Kernel (OSS) cc -O circa 2004.
+          dnl If cross compiling, assume the bug is not important, since
+          dnl nobody cross compiles for this platform as far as we know.
+          AC_RUN_IFELSE(
+            [AC_LANG_PROGRAM(
+               [[@%:@include <limits.h>
+                 @%:@ifndef LLONG_MAX
+                 @%:@ define HALF \
+                          (1LL << (sizeof (long long int) * CHAR_BIT - 2))
+                 @%:@ define LLONG_MAX (HALF - 1 + HALF)
+                 @%:@endif]],
+               [[long long int n = 1;
+                 int i;
+                 for (i = 0; ; i++)
+                   {
+                     long long int m = n << i;
+                     if (m >> i != n)
+                       return 1;
+                     if (LLONG_MAX / 2 < m)
+                       break;
+                   }
+                 return 0;]])],
+            [],
+            [ac_cv_type_long_long_int=no],
+            [:])
+        fi
+      fi])
+  if test $ac_cv_type_long_long_int = yes; then
+    AC_DEFINE([HAVE_LONG_LONG_INT], [1],
+      [Define to 1 if the system has the type `long long int'.])
+  fi
+])
+m4trace:m4/longlong.m4:67: -1- AC_DEFUN([AC_TYPE_UNSIGNED_LONG_LONG_INT], [
+  AC_CACHE_CHECK([for unsigned long long int],
+    [ac_cv_type_unsigned_long_long_int],
+    [ac_cv_type_unsigned_long_long_int=yes
+     if test "x${ac_cv_prog_cc_c99-no}" = xno; then
+       AC_LINK_IFELSE(
+         [_AC_TYPE_LONG_LONG_SNIPPET],
+         [],
+         [ac_cv_type_unsigned_long_long_int=no])
+     fi])
+  if test $ac_cv_type_unsigned_long_long_int = yes; then
+    AC_DEFINE([HAVE_UNSIGNED_LONG_LONG_INT], [1],
+      [Define to 1 if the system has the type `unsigned long long int'.])
+  fi
+])
+m4trace:m4/longlong.m4:89: -1- AC_DEFUN([_AC_TYPE_LONG_LONG_SNIPPET], [
+  AC_LANG_PROGRAM(
+    [[/* For now, do not test the preprocessor; as of 2007 there are too many
+         implementations with broken preprocessors.  Perhaps this can
+         be revisited in 2012.  In the meantime, code should not expect
+         #if to work with literals wider than 32 bits.  */
+      /* Test literals.  */
+      long long int ll = 9223372036854775807ll;
+      long long int nll = -9223372036854775807LL;
+      unsigned long long int ull = 18446744073709551615ULL;
+      /* Test constant expressions.   */
+      typedef int a[((-9223372036854775807LL < 0 && 0 < 9223372036854775807ll)
+                     ? 1 : -1)];
+      typedef int b[(18446744073709551615ULL <= (unsigned long long int) -1
+                     ? 1 : -1)];
+      int i = 63;]],
+    [[/* Test availability of runtime routines for shift and division.  */
+      long long int llmax = 9223372036854775807ll;
+      unsigned long long int ullmax = 18446744073709551615ull;
+      return ((ll << 63) | (ll >> 63) | (ll < i) | (ll > i)
+              | (llmax / ll) | (llmax % ll)
+              | (ull << 63) | (ull >> 63) | (ull << i) | (ull >> i)
+              | (ullmax / ull) | (ullmax % ull));]])
+])
+m4trace:m4/memchr.m4:7: -1- AC_DEFUN_ONCE([gl_FUNC_MEMCHR], [
+  dnl Check for prerequisites for memory fence checks.
+  gl_FUNC_MMAP_ANON
+  AC_CHECK_HEADERS_ONCE([sys/mman.h])
+  AC_CHECK_FUNCS_ONCE([mprotect])
+
+  AC_REQUIRE([gl_HEADER_STRING_H_DEFAULTS])
+  m4_ifdef([gl_FUNC_MEMCHR_OBSOLETE], [
+    dnl These days, we assume memchr is present.  But if support for old
+    dnl platforms is desired:
+    AC_CHECK_FUNCS_ONCE([memchr])
+    if test $ac_cv_func_memchr = no; then
+      HAVE_MEMCHR=0
+    fi
+  ])
+  if test $HAVE_MEMCHR = 1; then
+    # Detect platform-specific bugs in some versions of glibc:
+    # memchr should not dereference anything with length 0
+    #   http://bugzilla.redhat.com/499689
+    # memchr should not dereference overestimated length after a match
+    #   http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=521737
+    #   http://sourceware.org/bugzilla/show_bug.cgi?id=10162
+    # Assume that memchr works on platforms that lack mprotect.
+    AC_CACHE_CHECK([whether memchr works], [gl_cv_func_memchr_works],
+      [AC_RUN_IFELSE([AC_LANG_PROGRAM([[
+#include <string.h>
+#if HAVE_SYS_MMAN_H
+# include <fcntl.h>
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/mman.h>
+# ifndef MAP_FILE
+#  define MAP_FILE 0
+# endif
+#endif
+]], [[
+  int result = 0;
+  char *fence = NULL;
+#if HAVE_SYS_MMAN_H && HAVE_MPROTECT
+# if HAVE_MAP_ANONYMOUS
+  const int flags = MAP_ANONYMOUS | MAP_PRIVATE;
+  const int fd = -1;
+# else /* !HAVE_MAP_ANONYMOUS */
+  const int flags = MAP_FILE | MAP_PRIVATE;
+  int fd = open ("/dev/zero", O_RDONLY, 0666);
+  if (fd >= 0)
+# endif
+    {
+      int pagesize = getpagesize ();
+      char *two_pages =
+        (char *) mmap (NULL, 2 * pagesize, PROT_READ | PROT_WRITE,
+                       flags, fd, 0);
+      if (two_pages != (char *)(-1)
+          && mprotect (two_pages + pagesize, pagesize, PROT_NONE) == 0)
+        fence = two_pages + pagesize;
+    }
+#endif
+  if (fence)
+    {
+      if (memchr (fence, 0, 0))
+        result |= 1;
+      strcpy (fence - 9, "12345678");
+      if (memchr (fence - 9, 0, 79) != fence - 1)
+        result |= 2;
+      if (memchr (fence - 1, 0, 3) != fence - 1)
+        result |= 4;
+    }
+  return result;
+]])], [gl_cv_func_memchr_works=yes], [gl_cv_func_memchr_works=no],
+      [dnl Be pessimistic for now.
+       gl_cv_func_memchr_works="guessing no"])])
+    if test "$gl_cv_func_memchr_works" != yes; then
+      REPLACE_MEMCHR=1
+    fi
+  fi
+])
+m4trace:m4/memchr.m4:86: -1- AC_DEFUN([gl_PREREQ_MEMCHR], [
+  AC_CHECK_HEADERS([bp-sym.h])
+])
+m4trace:m4/memmem.m4:8: -1- AC_DEFUN([gl_FUNC_MEMMEM_SIMPLE], [
+  dnl Persuade glibc <string.h> to declare memmem().
+  AC_REQUIRE([AC_USE_SYSTEM_EXTENSIONS])
+
+  AC_REQUIRE([gl_HEADER_STRING_H_DEFAULTS])
+  AC_CHECK_FUNCS([memmem])
+  if test $ac_cv_func_memmem = yes; then
+    HAVE_MEMMEM=1
+  else
+    HAVE_MEMMEM=0
+  fi
+  AC_CHECK_DECLS_ONCE([memmem])
+  if test $ac_cv_have_decl_memmem = no; then
+    HAVE_DECL_MEMMEM=0
+  else
+    dnl Detect http://sourceware.org/bugzilla/show_bug.cgi?id=12092.
+    dnl Also check that we handle empty needles correctly.
+    AC_CACHE_CHECK([whether memmem works],
+      [gl_cv_func_memmem_works_always],
+      [AC_RUN_IFELSE([AC_LANG_PROGRAM([[
+#include <string.h> /* for memmem */
+#define P "_EF_BF_BD"
+#define HAYSTACK "F_BD_CE_BD" P P P P "_C3_88_20" P P P "_C3_A7_20" P
+#define NEEDLE P P P P P
+]], [[
+    int result = 0;
+    if (memmem (HAYSTACK, strlen (HAYSTACK), NEEDLE, strlen (NEEDLE)))
+      result |= 1;
+    /* Check for empty needle behavior.  */
+    {
+      const char *haystack = "AAA";
+      if (memmem (haystack, 3, NULL, 0) != haystack)
+        result |= 2;
+    }
+    return result;
+    ]])],
+        [gl_cv_func_memmem_works_always=yes],
+        [gl_cv_func_memmem_works_always=no],
+        [dnl glibc 2.9..2.12 and cygwin 1.7.7 have issue #12092 above.
+         dnl Also empty needles work on glibc >= 2.1 and cygwin >= 1.7.0.
+         dnl uClibc is not affected, since it uses different source code.
+         dnl Assume that it works on all other platforms (even if not linear).
+         AC_EGREP_CPP([Lucky user],
+           [
+#ifdef __GNU_LIBRARY__
+ #include <features.h>
+ #if ((__GLIBC__ == 2 && ((__GLIBC_MINOR > 0 && __GLIBC_MINOR__ < 9) \
+                          || __GLIBC_MINOR__ > 12)) \
+      || (__GLIBC__ > 2)) \
+     || defined __UCLIBC__
+  Lucky user
+ #endif
+#elif defined __CYGWIN__
+ #include <cygwin/version.h>
+ #if CYGWIN_VERSION_DLL_COMBINED > CYGWIN_VERSION_DLL_MAKE_COMBINED (1007, 7)
+  Lucky user
+ #endif
+#else
+  Lucky user
+#endif
+           ],
+           [gl_cv_func_memmem_works_always=yes],
+           [gl_cv_func_memmem_works_always="guessing no"])
+        ])
+      ])
+    if test "$gl_cv_func_memmem_works_always" != yes; then
+      REPLACE_MEMMEM=1
+    fi
+  fi
+  gl_PREREQ_MEMMEM
+])
+m4trace:m4/memmem.m4:82: -1- AC_DEFUN([gl_FUNC_MEMMEM], [
+  AC_REQUIRE([gl_FUNC_MEMMEM_SIMPLE])
+  if test $HAVE_DECL_MEMMEM = 1 && test $REPLACE_MEMMEM = 0; then
+    AC_CACHE_CHECK([whether memmem works in linear time],
+      [gl_cv_func_memmem_works_fast],
+      [AC_RUN_IFELSE([AC_LANG_PROGRAM([[
+#include <signal.h> /* for signal */
+#include <string.h> /* for memmem */
+#include <stdlib.h> /* for malloc */
+#include <unistd.h> /* for alarm */
+static void quit (int sig) { exit (sig + 128); }
+]], [[
+    int result = 0;
+    size_t m = 1000000;
+    char *haystack = (char *) malloc (2 * m + 1);
+    char *needle = (char *) malloc (m + 1);
+    /* Failure to compile this test due to missing alarm is okay,
+       since all such platforms (mingw) also lack memmem.  */
+    signal (SIGALRM, quit);
+    alarm (5);
+    /* Check for quadratic performance.  */
+    if (haystack && needle)
+      {
+        memset (haystack, 'A', 2 * m);
+        haystack[2 * m] = 'B';
+        memset (needle, 'A', m);
+        needle[m] = 'B';
+        if (!memmem (haystack, 2 * m + 1, needle, m + 1))
+          result |= 1;
+      }
+    return result;
+    ]])],
+        [gl_cv_func_memmem_works_fast=yes], [gl_cv_func_memmem_works_fast=no],
+        [dnl Only glibc >= 2.9 and cygwin > 1.7.0 are known to have a
+         dnl memmem that works in linear time.
+         AC_EGREP_CPP([Lucky user],
+           [
+#include <features.h>
+#ifdef __GNU_LIBRARY__
+ #if ((__GLIBC__ == 2 && __GLIBC_MINOR__ >= 9) || (__GLIBC__ > 2)) \
+     && !defined __UCLIBC__
+  Lucky user
+ #endif
+#endif
+#ifdef __CYGWIN__
+ #include <cygwin/version.h>
+ #if CYGWIN_VERSION_DLL_COMBINED > CYGWIN_VERSION_DLL_MAKE_COMBINED (1007, 0)
+  Lucky user
+ #endif
+#endif
+           ],
+           [gl_cv_func_memmem_works_fast=yes],
+           [gl_cv_func_memmem_works_fast="guessing no"])
+        ])
+      ])
+    if test "$gl_cv_func_memmem_works_fast" != yes; then
+      REPLACE_MEMMEM=1
+    fi
+  fi
+])
+m4trace:m4/memmem.m4:145: -1- AC_DEFUN([gl_PREREQ_MEMMEM], [:])
+m4trace:m4/mmap-anon.m4:16: -1- AC_DEFUN([gl_FUNC_MMAP_ANON], [
+  dnl Persuade glibc <sys/mman.h> to define MAP_ANONYMOUS.
+  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
+
+  # Check for mmap(). Don't use AC_FUNC_MMAP, because it checks too much: it
+  # fails on HP-UX 11, because MAP_FIXED mappings do not work. But this is
+  # irrelevant for anonymous mappings.
+  AC_CHECK_FUNC([mmap], [gl_have_mmap=yes], [gl_have_mmap=no])
+
+  # Try to allow MAP_ANONYMOUS.
+  gl_have_mmap_anonymous=no
+  if test $gl_have_mmap = yes; then
+    AC_MSG_CHECKING([for MAP_ANONYMOUS])
+    AC_EGREP_CPP([I cant identify this map.], [
+#include <sys/mman.h>
+#ifdef MAP_ANONYMOUS
+    I cant identify this map.
+#endif
+],
+      [gl_have_mmap_anonymous=yes])
+    if test $gl_have_mmap_anonymous != yes; then
+      AC_EGREP_CPP([I cant identify this map.], [
+#include <sys/mman.h>
+#ifdef MAP_ANON
+    I cant identify this map.
+#endif
+],
+        [AC_DEFINE([MAP_ANONYMOUS], [MAP_ANON],
+          [Define to a substitute value for mmap()'s MAP_ANONYMOUS flag.])
+         gl_have_mmap_anonymous=yes])
+    fi
+    AC_MSG_RESULT([$gl_have_mmap_anonymous])
+    if test $gl_have_mmap_anonymous = yes; then
+      AC_DEFINE([HAVE_MAP_ANONYMOUS], [1],
+        [Define to 1 if mmap()'s MAP_ANONYMOUS flag is available after including
+         config.h and <sys/mman.h>.])
+    fi
+  fi
+])
+m4trace:m4/multiarch.m4:21: -1- AC_DEFUN_ONCE([gl_MULTIARCH], [
+  dnl Code similar to autoconf-2.63 AC_C_BIGENDIAN.
+  gl_cv_c_multiarch=no
+  AC_COMPILE_IFELSE(
+    [AC_LANG_SOURCE(
+      [[#ifndef __APPLE_CC__
+         not a universal capable compiler
+        #endif
+        typedef int dummy;
+      ]])],
+    [
+     dnl Check for potential -arch flags.  It is not universal unless
+     dnl there are at least two -arch flags with different values.
+     arch=
+     prev=
+     for word in ${CC} ${CFLAGS} ${CPPFLAGS} ${LDFLAGS}; do
+       if test -n "$prev"; then
+         case $word in
+           i?86 | x86_64 | ppc | ppc64)
+             if test -z "$arch" || test "$arch" = "$word"; then
+               arch="$word"
+             else
+               gl_cv_c_multiarch=yes
+             fi
+             ;;
+         esac
+         prev=
+       else
+         if test "x$word" = "x-arch"; then
+           prev=arch
+         fi
+       fi
+     done
+    ])
+  if test $gl_cv_c_multiarch = yes; then
+    APPLE_UNIVERSAL_BUILD=1
+  else
+    APPLE_UNIVERSAL_BUILD=0
+  fi
+  AC_SUBST([APPLE_UNIVERSAL_BUILD])
+])
+m4trace:m4/onceonly.m4:39: -1- AC_DEFUN([AC_CHECK_HEADERS_ONCE], [
+  :
+  m4_foreach_w([gl_HEADER_NAME], [$1], [
+    AC_DEFUN([gl_CHECK_HEADER_]m4_quote(m4_translit(gl_HEADER_NAME,
+                                                    [./-], [___])), [
+      m4_divert_text([INIT_PREPARE],
+        [gl_header_list="$gl_header_list gl_HEADER_NAME"])
+      gl_HEADERS_EXPANSION
+      AH_TEMPLATE(AS_TR_CPP([HAVE_]m4_defn([gl_HEADER_NAME])),
+        [Define to 1 if you have the <]m4_defn([gl_HEADER_NAME])[> header file.])
+    ])
+    AC_REQUIRE([gl_CHECK_HEADER_]m4_quote(m4_translit(gl_HEADER_NAME,
+                                                      [./-], [___])))
+  ])
+])
+m4trace:m4/onceonly.m4:62: -1- AC_DEFUN([AC_CHECK_FUNCS_ONCE], [
+  :
+  m4_foreach_w([gl_FUNC_NAME], [$1], [
+    AC_DEFUN([gl_CHECK_FUNC_]m4_defn([gl_FUNC_NAME]), [
+      m4_divert_text([INIT_PREPARE],
+        [gl_func_list="$gl_func_list gl_FUNC_NAME"])
+      gl_FUNCS_EXPANSION
+      AH_TEMPLATE(AS_TR_CPP([HAVE_]m4_defn([gl_FUNC_NAME])),
+        [Define to 1 if you have the `]m4_defn([gl_FUNC_NAME])[' function.])
+    ])
+    AC_REQUIRE([gl_CHECK_FUNC_]m4_defn([gl_FUNC_NAME]))
+  ])
+])
+m4trace:m4/onceonly.m4:83: -1- AC_DEFUN([AC_CHECK_DECLS_ONCE], [
+  :
+  m4_foreach_w([gl_DECL_NAME], [$1], [
+    AC_DEFUN([gl_CHECK_DECL_]m4_defn([gl_DECL_NAME]), [
+      AC_CHECK_DECLS(m4_defn([gl_DECL_NAME]))
+    ])
+    AC_REQUIRE([gl_CHECK_DECL_]m4_defn([gl_DECL_NAME]))
+  ])
+])
+m4trace:m4/sigaction.m4:8: -1- AC_DEFUN([gl_SIGACTION], [
+  AC_REQUIRE([gl_SIGNAL_H_DEFAULTS])
+  AC_CHECK_FUNCS_ONCE([sigaction])
+  if test $ac_cv_func_sigaction = yes; then
+    AC_CHECK_MEMBERS([struct sigaction.sa_sigaction], , ,
+                     [[#include <signal.h>]])
+    if test $ac_cv_member_struct_sigaction_sa_sigaction = no; then
+      HAVE_STRUCT_SIGACTION_SA_SIGACTION=0
+    fi
+  else
+    HAVE_SIGACTION=0
+  fi
+])
+m4trace:m4/sigaction.m4:24: -1- AC_DEFUN([gl_PREREQ_SIGACTION], [
+  AC_REQUIRE([gl_SIGNAL_H_DEFAULTS])
+  AC_REQUIRE([AC_C_RESTRICT])
+  AC_REQUIRE([AC_TYPE_UID_T])
+  AC_REQUIRE([gl_PREREQ_SIG_HANDLER_H])
+  AC_CHECK_FUNCS_ONCE([sigaltstack siginterrupt])
+  AC_CHECK_TYPES([siginfo_t], [], [], [[
+#include <signal.h>
+  ]])
+  if test $ac_cv_type_siginfo_t = no; then
+    HAVE_SIGINFO_T=0
+  fi
+])
+m4trace:m4/sigaction.m4:40: -1- AC_DEFUN([gl_PREREQ_SIG_HANDLER_H], [
+  AC_REQUIRE([AC_C_INLINE])
+])
+m4trace:m4/signal_h.m4:7: -1- AC_DEFUN([gl_SIGNAL_H], [
+  AC_REQUIRE([gl_SIGNAL_H_DEFAULTS])
+  gl_NEXT_HEADERS([signal.h])
+
+# AIX declares sig_atomic_t to already include volatile, and C89 compilers
+# then choke on 'volatile sig_atomic_t'.  C99 requires that it compile.
+  AC_CHECK_TYPE([volatile sig_atomic_t], [],
+    [HAVE_TYPE_VOLATILE_SIG_ATOMIC_T=0], [[
+#include <signal.h>
+    ]])
+
+  AC_REQUIRE([AC_TYPE_UID_T])
+
+  dnl Persuade glibc <signal.h> to define sighandler_t.
+  AC_REQUIRE([AC_USE_SYSTEM_EXTENSIONS])
+  AC_CHECK_TYPE([sighandler_t], [], [HAVE_SIGHANDLER_T=0], [[
+#include <signal.h>
+    ]])
+
+  dnl Check for declarations of anything we want to poison if the
+  dnl corresponding gnulib module is not in use.
+  gl_WARN_ON_USE_PREPARE([[#include <signal.h>
+    ]], [sigaction sigaddset sigdelset sigemptyset sigfillset sigismember
+    sigpending sigprocmask])
+])
+m4trace:m4/signal_h.m4:34: -1- AC_DEFUN([gl_SIGNAL_MODULE_INDICATOR], [
+  dnl Use AC_REQUIRE here, so that the default settings are expanded once only.
+  AC_REQUIRE([gl_SIGNAL_H_DEFAULTS])
+  gl_MODULE_INDICATOR_SET_VARIABLE([$1])
+  dnl Define it also as a C macro, for the benefit of the unit tests.
+  gl_MODULE_INDICATOR_FOR_TESTS([$1])
+])
+m4trace:m4/signal_h.m4:43: -1- AC_DEFUN([gl_SIGNAL_H_DEFAULTS], [
+  GNULIB_SIGNAL_H_SIGPIPE=0;   AC_SUBST([GNULIB_SIGNAL_H_SIGPIPE])
+  GNULIB_SIGPROCMASK=0;        AC_SUBST([GNULIB_SIGPROCMASK])
+  GNULIB_SIGACTION=0;          AC_SUBST([GNULIB_SIGACTION])
+  dnl Assume proper GNU behavior unless another module says otherwise.
+  HAVE_POSIX_SIGNALBLOCKING=1; AC_SUBST([HAVE_POSIX_SIGNALBLOCKING])
+  HAVE_SIGSET_T=1;             AC_SUBST([HAVE_SIGSET_T])
+  HAVE_SIGINFO_T=1;            AC_SUBST([HAVE_SIGINFO_T])
+  HAVE_SIGACTION=1;            AC_SUBST([HAVE_SIGACTION])
+  HAVE_STRUCT_SIGACTION_SA_SIGACTION=1;
+                               AC_SUBST([HAVE_STRUCT_SIGACTION_SA_SIGACTION])
+  HAVE_TYPE_VOLATILE_SIG_ATOMIC_T=1;
+                               AC_SUBST([HAVE_TYPE_VOLATILE_SIG_ATOMIC_T])
+  HAVE_SIGHANDLER_T=1;         AC_SUBST([HAVE_SIGHANDLER_T])
+])
+m4trace:m4/signalblocking.m4:12: -1- AC_DEFUN([gl_SIGNALBLOCKING], [
+  AC_REQUIRE([gl_SIGNAL_H_DEFAULTS])
+  signals_not_posix=
+  AC_EGREP_HEADER([sigset_t], [signal.h], , [signals_not_posix=1])
+  if test -z "$signals_not_posix"; then
+    AC_CHECK_FUNC([sigprocmask], [gl_cv_func_sigprocmask=1])
+  fi
+  if test -z "$gl_cv_func_sigprocmask"; then
+    HAVE_POSIX_SIGNALBLOCKING=0
+  fi
+])
+m4trace:m4/signalblocking.m4:26: -1- AC_DEFUN([gl_PREREQ_SIGPROCMASK], [
+  AC_REQUIRE([gl_SIGNAL_H_DEFAULTS])
+  AC_CHECK_TYPES([sigset_t],
+    [gl_cv_type_sigset_t=yes], [gl_cv_type_sigset_t=no],
+    [#include <signal.h>
+/* Mingw defines sigset_t not in <signal.h>, but in <sys/types.h>.  */
+#include <sys/types.h>])
+  if test $gl_cv_type_sigset_t != yes; then
+    HAVE_SIGSET_T=0
+  fi
+  dnl HAVE_SIGSET_T is 1 if the system lacks the sigprocmask function but has
+  dnl the sigset_t type.
+  AC_SUBST([HAVE_SIGSET_T])
+])
+m4trace:m4/stddef_h.m4:8: -1- AC_DEFUN([gl_STDDEF_H], [
+  AC_REQUIRE([gl_STDDEF_H_DEFAULTS])
+  AC_REQUIRE([gt_TYPE_WCHAR_T])
+  STDDEF_H=
+  if test $gt_cv_c_wchar_t = no; then
+    HAVE_WCHAR_T=0
+    STDDEF_H=stddef.h
+  fi
+  AC_CACHE_CHECK([whether NULL can be used in arbitrary expressions],
+    [gl_cv_decl_null_works],
+    [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stddef.h>
+      int test[2 * (sizeof NULL == sizeof (void *)) -1];
+]])],
+      [gl_cv_decl_null_works=yes],
+      [gl_cv_decl_null_works=no])])
+  if test $gl_cv_decl_null_works = no; then
+    REPLACE_NULL=1
+    STDDEF_H=stddef.h
+  fi
+  AC_SUBST([STDDEF_H])
+  AM_CONDITIONAL([GL_GENERATE_STDDEF_H], [test -n "$STDDEF_H"])
+  if test -n "$STDDEF_H"; then
+    gl_NEXT_HEADERS([stddef.h])
+  fi
+])
+m4trace:m4/stddef_h.m4:35: -1- AC_DEFUN([gl_STDDEF_MODULE_INDICATOR], [
+  dnl Use AC_REQUIRE here, so that the default settings are expanded once only.
+  AC_REQUIRE([gl_STDDEF_H_DEFAULTS])
+  gl_MODULE_INDICATOR_SET_VARIABLE([$1])
+])
+m4trace:m4/stddef_h.m4:42: -1- AC_DEFUN([gl_STDDEF_H_DEFAULTS], [
+  dnl Assume proper GNU behavior unless another module says otherwise.
+  REPLACE_NULL=0;                AC_SUBST([REPLACE_NULL])
+  HAVE_WCHAR_T=1;                AC_SUBST([HAVE_WCHAR_T])
+])
+m4trace:m4/stdint.m4:10: -1- AC_DEFUN_ONCE([gl_STDINT_H], [
+  AC_PREREQ([2.59])dnl
+
+  dnl Check for long long int and unsigned long long int.
+  AC_REQUIRE([AC_TYPE_LONG_LONG_INT])
+  if test $ac_cv_type_long_long_int = yes; then
+    HAVE_LONG_LONG_INT=1
+  else
+    HAVE_LONG_LONG_INT=0
+  fi
+  AC_SUBST([HAVE_LONG_LONG_INT])
+  AC_REQUIRE([AC_TYPE_UNSIGNED_LONG_LONG_INT])
+  if test $ac_cv_type_unsigned_long_long_int = yes; then
+    HAVE_UNSIGNED_LONG_LONG_INT=1
+  else
+    HAVE_UNSIGNED_LONG_LONG_INT=0
+  fi
+  AC_SUBST([HAVE_UNSIGNED_LONG_LONG_INT])
+
+  dnl Check for <wchar.h>, in the same way as gl_WCHAR_H does.
+  AC_CHECK_HEADERS_ONCE([wchar.h])
+  if test $ac_cv_header_wchar_h = yes; then
+    HAVE_WCHAR_H=1
+  else
+    HAVE_WCHAR_H=0
+  fi
+  AC_SUBST([HAVE_WCHAR_H])
+
+  dnl Check for <inttypes.h>.
+  dnl AC_INCLUDES_DEFAULT defines $ac_cv_header_inttypes_h.
+  if test $ac_cv_header_inttypes_h = yes; then
+    HAVE_INTTYPES_H=1
+  else
+    HAVE_INTTYPES_H=0
+  fi
+  AC_SUBST([HAVE_INTTYPES_H])
+
+  dnl Check for <sys/types.h>.
+  dnl AC_INCLUDES_DEFAULT defines $ac_cv_header_sys_types_h.
+  if test $ac_cv_header_sys_types_h = yes; then
+    HAVE_SYS_TYPES_H=1
+  else
+    HAVE_SYS_TYPES_H=0
+  fi
+  AC_SUBST([HAVE_SYS_TYPES_H])
+
+  gl_CHECK_NEXT_HEADERS([stdint.h])
+  if test $ac_cv_header_stdint_h = yes; then
+    HAVE_STDINT_H=1
+  else
+    HAVE_STDINT_H=0
+  fi
+  AC_SUBST([HAVE_STDINT_H])
+
+  dnl Now see whether we need a substitute <stdint.h>.
+  if test $ac_cv_header_stdint_h = yes; then
+    AC_CACHE_CHECK([whether stdint.h conforms to C99],
+      [gl_cv_header_working_stdint_h],
+      [gl_cv_header_working_stdint_h=no
+       AC_COMPILE_IFELSE([
+         AC_LANG_PROGRAM([[
+#define __STDC_LIMIT_MACROS 1 /* to make it work also in C++ mode */
+#define __STDC_CONSTANT_MACROS 1 /* to make it work also in C++ mode */
+#define _GL_JUST_INCLUDE_SYSTEM_STDINT_H 1 /* work if build isn't clean */
+#include <stdint.h>
+/* Dragonfly defines WCHAR_MIN, WCHAR_MAX only in <wchar.h>.  */
+#if !(defined WCHAR_MIN && defined WCHAR_MAX)
+#error "WCHAR_MIN, WCHAR_MAX not defined in <stdint.h>"
+#endif
+]
+gl_STDINT_INCLUDES
+[
+#ifdef INT8_MAX
+int8_t a1 = INT8_MAX;
+int8_t a1min = INT8_MIN;
+#endif
+#ifdef INT16_MAX
+int16_t a2 = INT16_MAX;
+int16_t a2min = INT16_MIN;
+#endif
+#ifdef INT32_MAX
+int32_t a3 = INT32_MAX;
+int32_t a3min = INT32_MIN;
+#endif
+#ifdef INT64_MAX
+int64_t a4 = INT64_MAX;
+int64_t a4min = INT64_MIN;
+#endif
+#ifdef UINT8_MAX
+uint8_t b1 = UINT8_MAX;
+#else
+typedef int b1[(unsigned char) -1 != 255 ? 1 : -1];
+#endif
+#ifdef UINT16_MAX
+uint16_t b2 = UINT16_MAX;
+#endif
+#ifdef UINT32_MAX
+uint32_t b3 = UINT32_MAX;
+#endif
+#ifdef UINT64_MAX
+uint64_t b4 = UINT64_MAX;
+#endif
+int_least8_t c1 = INT8_C (0x7f);
+int_least8_t c1max = INT_LEAST8_MAX;
+int_least8_t c1min = INT_LEAST8_MIN;
+int_least16_t c2 = INT16_C (0x7fff);
+int_least16_t c2max = INT_LEAST16_MAX;
+int_least16_t c2min = INT_LEAST16_MIN;
+int_least32_t c3 = INT32_C (0x7fffffff);
+int_least32_t c3max = INT_LEAST32_MAX;
+int_least32_t c3min = INT_LEAST32_MIN;
+int_least64_t c4 = INT64_C (0x7fffffffffffffff);
+int_least64_t c4max = INT_LEAST64_MAX;
+int_least64_t c4min = INT_LEAST64_MIN;
+uint_least8_t d1 = UINT8_C (0xff);
+uint_least8_t d1max = UINT_LEAST8_MAX;
+uint_least16_t d2 = UINT16_C (0xffff);
+uint_least16_t d2max = UINT_LEAST16_MAX;
+uint_least32_t d3 = UINT32_C (0xffffffff);
+uint_least32_t d3max = UINT_LEAST32_MAX;
+uint_least64_t d4 = UINT64_C (0xffffffffffffffff);
+uint_least64_t d4max = UINT_LEAST64_MAX;
+int_fast8_t e1 = INT_FAST8_MAX;
+int_fast8_t e1min = INT_FAST8_MIN;
+int_fast16_t e2 = INT_FAST16_MAX;
+int_fast16_t e2min = INT_FAST16_MIN;
+int_fast32_t e3 = INT_FAST32_MAX;
+int_fast32_t e3min = INT_FAST32_MIN;
+int_fast64_t e4 = INT_FAST64_MAX;
+int_fast64_t e4min = INT_FAST64_MIN;
+uint_fast8_t f1 = UINT_FAST8_MAX;
+uint_fast16_t f2 = UINT_FAST16_MAX;
+uint_fast32_t f3 = UINT_FAST32_MAX;
+uint_fast64_t f4 = UINT_FAST64_MAX;
+#ifdef INTPTR_MAX
+intptr_t g = INTPTR_MAX;
+intptr_t gmin = INTPTR_MIN;
+#endif
+#ifdef UINTPTR_MAX
+uintptr_t h = UINTPTR_MAX;
+#endif
+intmax_t i = INTMAX_MAX;
+uintmax_t j = UINTMAX_MAX;
+
+#include <limits.h> /* for CHAR_BIT */
+#define TYPE_MINIMUM(t) \
+  ((t) ((t) 0 < (t) -1 ? (t) 0 : ~ TYPE_MAXIMUM (t)))
+#define TYPE_MAXIMUM(t) \
+  ((t) ((t) 0 < (t) -1 \
+        ? (t) -1 \
+        : ((((t) 1 << (sizeof (t) * CHAR_BIT - 2)) - 1) * 2 + 1)))
+struct s {
+  int check_PTRDIFF:
+      PTRDIFF_MIN == TYPE_MINIMUM (ptrdiff_t)
+      && PTRDIFF_MAX == TYPE_MAXIMUM (ptrdiff_t)
+      ? 1 : -1;
+  /* Detect bug in FreeBSD 6.0 / ia64.  */
+  int check_SIG_ATOMIC:
+      SIG_ATOMIC_MIN == TYPE_MINIMUM (sig_atomic_t)
+      && SIG_ATOMIC_MAX == TYPE_MAXIMUM (sig_atomic_t)
+      ? 1 : -1;
+  int check_SIZE: SIZE_MAX == TYPE_MAXIMUM (size_t) ? 1 : -1;
+  int check_WCHAR:
+      WCHAR_MIN == TYPE_MINIMUM (wchar_t)
+      && WCHAR_MAX == TYPE_MAXIMUM (wchar_t)
+      ? 1 : -1;
+  /* Detect bug in mingw.  */
+  int check_WINT:
+      WINT_MIN == TYPE_MINIMUM (wint_t)
+      && WINT_MAX == TYPE_MAXIMUM (wint_t)
+      ? 1 : -1;
+
+  /* Detect bugs in glibc 2.4 and Solaris 10 stdint.h, among others.  */
+  int check_UINT8_C:
+        (-1 < UINT8_C (0)) == (-1 < (uint_least8_t) 0) ? 1 : -1;
+  int check_UINT16_C:
+        (-1 < UINT16_C (0)) == (-1 < (uint_least16_t) 0) ? 1 : -1;
+
+  /* Detect bugs in OpenBSD 3.9 stdint.h.  */
+#ifdef UINT8_MAX
+  int check_uint8: (uint8_t) -1 == UINT8_MAX ? 1 : -1;
+#endif
+#ifdef UINT16_MAX
+  int check_uint16: (uint16_t) -1 == UINT16_MAX ? 1 : -1;
+#endif
+#ifdef UINT32_MAX
+  int check_uint32: (uint32_t) -1 == UINT32_MAX ? 1 : -1;
+#endif
+#ifdef UINT64_MAX
+  int check_uint64: (uint64_t) -1 == UINT64_MAX ? 1 : -1;
+#endif
+  int check_uint_least8: (uint_least8_t) -1 == UINT_LEAST8_MAX ? 1 : -1;
+  int check_uint_least16: (uint_least16_t) -1 == UINT_LEAST16_MAX ? 1 : -1;
+  int check_uint_least32: (uint_least32_t) -1 == UINT_LEAST32_MAX ? 1 : -1;
+  int check_uint_least64: (uint_least64_t) -1 == UINT_LEAST64_MAX ? 1 : -1;
+  int check_uint_fast8: (uint_fast8_t) -1 == UINT_FAST8_MAX ? 1 : -1;
+  int check_uint_fast16: (uint_fast16_t) -1 == UINT_FAST16_MAX ? 1 : -1;
+  int check_uint_fast32: (uint_fast32_t) -1 == UINT_FAST32_MAX ? 1 : -1;
+  int check_uint_fast64: (uint_fast64_t) -1 == UINT_FAST64_MAX ? 1 : -1;
+  int check_uintptr: (uintptr_t) -1 == UINTPTR_MAX ? 1 : -1;
+  int check_uintmax: (uintmax_t) -1 == UINTMAX_MAX ? 1 : -1;
+  int check_size: (size_t) -1 == SIZE_MAX ? 1 : -1;
+};
+         ]])],
+         [dnl Determine whether the various *_MIN, *_MAX macros are usable
+          dnl in preprocessor expression. We could do it by compiling a test
+          dnl program for each of these macros. It is faster to run a program
+          dnl that inspects the macro expansion.
+          dnl This detects a bug on HP-UX 11.23/ia64.
+          AC_RUN_IFELSE([
+            AC_LANG_PROGRAM([[
+#define __STDC_LIMIT_MACROS 1 /* to make it work also in C++ mode */
+#define __STDC_CONSTANT_MACROS 1 /* to make it work also in C++ mode */
+#define _GL_JUST_INCLUDE_SYSTEM_STDINT_H 1 /* work if build isn't clean */
+#include <stdint.h>
+]
+gl_STDINT_INCLUDES
+[
+#include <stdio.h>
+#include <string.h>
+#define MVAL(macro) MVAL1(macro)
+#define MVAL1(expression) #expression
+static const char *macro_values[] =
+  {
+#ifdef INT8_MAX
+    MVAL (INT8_MAX),
+#endif
+#ifdef INT16_MAX
+    MVAL (INT16_MAX),
+#endif
+#ifdef INT32_MAX
+    MVAL (INT32_MAX),
+#endif
+#ifdef INT64_MAX
+    MVAL (INT64_MAX),
+#endif
+#ifdef UINT8_MAX
+    MVAL (UINT8_MAX),
+#endif
+#ifdef UINT16_MAX
+    MVAL (UINT16_MAX),
+#endif
+#ifdef UINT32_MAX
+    MVAL (UINT32_MAX),
+#endif
+#ifdef UINT64_MAX
+    MVAL (UINT64_MAX),
+#endif
+    NULL
+  };
+]], [[
+  const char **mv;
+  for (mv = macro_values; *mv != NULL; mv++)
+    {
+      const char *value = *mv;
+      /* Test whether it looks like a cast expression.  */
+      if (strncmp (value, "((unsigned int)"/*)*/, 15) == 0
+          || strncmp (value, "((unsigned short)"/*)*/, 17) == 0
+          || strncmp (value, "((unsigned char)"/*)*/, 16) == 0
+          || strncmp (value, "((int)"/*)*/, 6) == 0
+          || strncmp (value, "((signed short)"/*)*/, 15) == 0
+          || strncmp (value, "((signed char)"/*)*/, 14) == 0)
+        return mv - macro_values + 1;
+    }
+  return 0;
+]])],
+              [gl_cv_header_working_stdint_h=yes],
+              [],
+              [dnl When cross-compiling, assume it works.
+               gl_cv_header_working_stdint_h=yes
+              ])
+         ])
+      ])
+  fi
+  if test "$gl_cv_header_working_stdint_h" = yes; then
+    STDINT_H=
+  else
+    dnl Check for <sys/inttypes.h>, and for
+    dnl <sys/bitypes.h> (used in Linux libc4 >= 4.6.7 and libc5).
+    AC_CHECK_HEADERS([sys/inttypes.h sys/bitypes.h])
+    if test $ac_cv_header_sys_inttypes_h = yes; then
+      HAVE_SYS_INTTYPES_H=1
+    else
+      HAVE_SYS_INTTYPES_H=0
+    fi
+    AC_SUBST([HAVE_SYS_INTTYPES_H])
+    if test $ac_cv_header_sys_bitypes_h = yes; then
+      HAVE_SYS_BITYPES_H=1
+    else
+      HAVE_SYS_BITYPES_H=0
+    fi
+    AC_SUBST([HAVE_SYS_BITYPES_H])
+
+    gl_STDINT_TYPE_PROPERTIES
+    STDINT_H=stdint.h
+  fi
+  AC_SUBST([STDINT_H])
+  AM_CONDITIONAL([GL_GENERATE_STDINT_H], [test -n "$STDINT_H"])
+])
+m4trace:m4/stdint.m4:313: -1- AC_DEFUN([gl_STDINT_BITSIZEOF], [
+  dnl Use a shell loop, to avoid bloating configure, and
+  dnl - extra AH_TEMPLATE calls, so that autoheader knows what to put into
+  dnl   config.h.in,
+  dnl - extra AC_SUBST calls, so that the right substitutions are made.
+  m4_foreach_w([gltype], [$1],
+    [AH_TEMPLATE([BITSIZEOF_]m4_translit(gltype,[abcdefghijklmnopqrstuvwxyz ],[ABCDEFGHIJKLMNOPQRSTUVWXYZ_]),
+       [Define to the number of bits in type ']gltype['.])])
+  for gltype in $1 ; do
+    AC_CACHE_CHECK([for bit size of $gltype], [gl_cv_bitsizeof_${gltype}],
+      [AC_COMPUTE_INT([result], [sizeof ($gltype) * CHAR_BIT],
+         [$2
+#include <limits.h>], [result=unknown])
+       eval gl_cv_bitsizeof_${gltype}=\$result
+      ])
+    eval result=\$gl_cv_bitsizeof_${gltype}
+    if test $result = unknown; then
+      dnl Use a nonempty default, because some compilers, such as IRIX 5 cc,
+      dnl do a syntax check even on unused #if conditions and give an error
+      dnl on valid C code like this:
+      dnl   #if 0
+      dnl   # if  > 32
+      dnl   # endif
+      dnl   #endif
+      result=0
+    fi
+    GLTYPE=`echo "$gltype" | tr 'abcdefghijklmnopqrstuvwxyz ' 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_'`
+    AC_DEFINE_UNQUOTED([BITSIZEOF_${GLTYPE}], [$result])
+    eval BITSIZEOF_${GLTYPE}=\$result
+  done
+  m4_foreach_w([gltype], [$1],
+    [AC_SUBST([BITSIZEOF_]m4_translit(gltype,[abcdefghijklmnopqrstuvwxyz ],[ABCDEFGHIJKLMNOPQRSTUVWXYZ_]))])
+])
+m4trace:m4/stdint.m4:351: -1- AC_DEFUN([gl_CHECK_TYPES_SIGNED], [
+  dnl Use a shell loop, to avoid bloating configure, and
+  dnl - extra AH_TEMPLATE calls, so that autoheader knows what to put into
+  dnl   config.h.in,
+  dnl - extra AC_SUBST calls, so that the right substitutions are made.
+  m4_foreach_w([gltype], [$1],
+    [AH_TEMPLATE([HAVE_SIGNED_]m4_translit(gltype,[abcdefghijklmnopqrstuvwxyz ],[ABCDEFGHIJKLMNOPQRSTUVWXYZ_]),
+       [Define to 1 if ']gltype[' is a signed integer type.])])
+  for gltype in $1 ; do
+    AC_CACHE_CHECK([whether $gltype is signed], [gl_cv_type_${gltype}_signed],
+      [AC_COMPILE_IFELSE(
+         [AC_LANG_PROGRAM([$2[
+            int verify[2 * (($gltype) -1 < ($gltype) 0) - 1];]])],
+         result=yes, result=no)
+       eval gl_cv_type_${gltype}_signed=\$result
+      ])
+    eval result=\$gl_cv_type_${gltype}_signed
+    GLTYPE=`echo $gltype | tr 'abcdefghijklmnopqrstuvwxyz ' 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_'`
+    if test "$result" = yes; then
+      AC_DEFINE_UNQUOTED([HAVE_SIGNED_${GLTYPE}], [1])
+      eval HAVE_SIGNED_${GLTYPE}=1
+    else
+      eval HAVE_SIGNED_${GLTYPE}=0
+    fi
+  done
+  m4_foreach_w([gltype], [$1],
+    [AC_SUBST([HAVE_SIGNED_]m4_translit(gltype,[abcdefghijklmnopqrstuvwxyz ],[ABCDEFGHIJKLMNOPQRSTUVWXYZ_]))])
+])
+m4trace:m4/stdint.m4:384: -1- AC_DEFUN([gl_INTEGER_TYPE_SUFFIX], [
+  dnl Use a shell loop, to avoid bloating configure, and
+  dnl - extra AH_TEMPLATE calls, so that autoheader knows what to put into
+  dnl   config.h.in,
+  dnl - extra AC_SUBST calls, so that the right substitutions are made.
+  m4_foreach_w([gltype], [$1],
+    [AH_TEMPLATE(m4_translit(gltype,[abcdefghijklmnopqrstuvwxyz ],[ABCDEFGHIJKLMNOPQRSTUVWXYZ_])[_SUFFIX],
+       [Define to l, ll, u, ul, ull, etc., as suitable for
+        constants of type ']gltype['.])])
+  for gltype in $1 ; do
+    AC_CACHE_CHECK([for $gltype integer literal suffix],
+      [gl_cv_type_${gltype}_suffix],
+      [eval gl_cv_type_${gltype}_suffix=no
+       eval result=\$gl_cv_type_${gltype}_signed
+       if test "$result" = yes; then
+         glsufu=
+       else
+         glsufu=u
+       fi
+       for glsuf in "$glsufu" ${glsufu}l ${glsufu}ll ${glsufu}i64; do
+         case $glsuf in
+           '')  gltype1='int';;
+           l)   gltype1='long int';;
+           ll)  gltype1='long long int';;
+           i64) gltype1='__int64';;
+           u)   gltype1='unsigned int';;
+           ul)  gltype1='unsigned long int';;
+           ull) gltype1='unsigned long long int';;
+           ui64)gltype1='unsigned __int64';;
+         esac
+         AC_COMPILE_IFELSE(
+           [AC_LANG_PROGRAM([$2[
+              extern $gltype foo;
+              extern $gltype1 foo;]])],
+           [eval gl_cv_type_${gltype}_suffix=\$glsuf])
+         eval result=\$gl_cv_type_${gltype}_suffix
+         test "$result" != no && break
+       done])
+    GLTYPE=`echo $gltype | tr 'abcdefghijklmnopqrstuvwxyz ' 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_'`
+    eval result=\$gl_cv_type_${gltype}_suffix
+    test "$result" = no && result=
+    eval ${GLTYPE}_SUFFIX=\$result
+    AC_DEFINE_UNQUOTED([${GLTYPE}_SUFFIX], [$result])
+  done
+  m4_foreach_w([gltype], [$1],
+    [AC_SUBST(m4_translit(gltype,[abcdefghijklmnopqrstuvwxyz ],[ABCDEFGHIJKLMNOPQRSTUVWXYZ_])[_SUFFIX])])
+])
+m4trace:m4/stdint.m4:434: -1- AC_DEFUN([gl_STDINT_INCLUDES], [[
+  /* BSD/OS 4.0.1 has a bug: <stddef.h>, <stdio.h> and <time.h> must be
+     included before <wchar.h>.  */
+  #include <stddef.h>
+  #include <signal.h>
+  #if HAVE_WCHAR_H
+  # include <stdio.h>
+  # include <time.h>
+  # include <wchar.h>
+  #endif
+]])
+m4trace:m4/stdint.m4:450: -1- AC_DEFUN([gl_STDINT_TYPE_PROPERTIES], [
+  AC_REQUIRE([gl_MULTIARCH])
+  if test $APPLE_UNIVERSAL_BUILD = 0; then
+    gl_STDINT_BITSIZEOF([ptrdiff_t size_t],
+      [gl_STDINT_INCLUDES])
+  fi
+  gl_STDINT_BITSIZEOF([sig_atomic_t wchar_t wint_t],
+    [gl_STDINT_INCLUDES])
+  gl_CHECK_TYPES_SIGNED([sig_atomic_t wchar_t wint_t],
+    [gl_STDINT_INCLUDES])
+  gl_cv_type_ptrdiff_t_signed=yes
+  gl_cv_type_size_t_signed=no
+  if test $APPLE_UNIVERSAL_BUILD = 0; then
+    gl_INTEGER_TYPE_SUFFIX([ptrdiff_t size_t],
+      [gl_STDINT_INCLUDES])
+  fi
+  gl_INTEGER_TYPE_SUFFIX([sig_atomic_t wchar_t wint_t],
+    [gl_STDINT_INCLUDES])
+])
+m4trace:m4/string_h.m4:12: -1- AC_DEFUN([gl_HEADER_STRING_H], [
+  dnl Use AC_REQUIRE here, so that the default behavior below is expanded
+  dnl once only, before all statements that occur in other macros.
+  AC_REQUIRE([gl_HEADER_STRING_H_BODY])
+])
+m4trace:m4/string_h.m4:19: -1- AC_DEFUN([gl_HEADER_STRING_H_BODY], [
+  AC_REQUIRE([AC_C_RESTRICT])
+  AC_REQUIRE([gl_HEADER_STRING_H_DEFAULTS])
+  gl_NEXT_HEADERS([string.h])
+
+  dnl Check for declarations of anything we want to poison if the
+  dnl corresponding gnulib module is not in use, and which is not
+  dnl guaranteed by C89.
+  gl_WARN_ON_USE_PREPARE([[#include <string.h>
+    ]],
+    [memmem mempcpy memrchr rawmemchr stpcpy stpncpy strchrnul strdup
+     strncat strndup strnlen strpbrk strsep strcasestr strtok_r strerror_r
+     strsignal strverscmp])
+])
+m4trace:m4/string_h.m4:35: -1- AC_DEFUN([gl_STRING_MODULE_INDICATOR], [
+  dnl Use AC_REQUIRE here, so that the default settings are expanded once only.
+  AC_REQUIRE([gl_HEADER_STRING_H_DEFAULTS])
+  gl_MODULE_INDICATOR_SET_VARIABLE([$1])
+  dnl Define it also as a C macro, for the benefit of the unit tests.
+  gl_MODULE_INDICATOR_FOR_TESTS([$1])
+])
+m4trace:m4/string_h.m4:44: -1- AC_DEFUN([gl_HEADER_STRING_H_DEFAULTS], [
+  GNULIB_MEMCHR=0;      AC_SUBST([GNULIB_MEMCHR])
+  GNULIB_MEMMEM=0;      AC_SUBST([GNULIB_MEMMEM])
+  GNULIB_MEMPCPY=0;     AC_SUBST([GNULIB_MEMPCPY])
+  GNULIB_MEMRCHR=0;     AC_SUBST([GNULIB_MEMRCHR])
+  GNULIB_RAWMEMCHR=0;   AC_SUBST([GNULIB_RAWMEMCHR])
+  GNULIB_STPCPY=0;      AC_SUBST([GNULIB_STPCPY])
+  GNULIB_STPNCPY=0;     AC_SUBST([GNULIB_STPNCPY])
+  GNULIB_STRCHRNUL=0;   AC_SUBST([GNULIB_STRCHRNUL])
+  GNULIB_STRDUP=0;      AC_SUBST([GNULIB_STRDUP])
+  GNULIB_STRNCAT=0;     AC_SUBST([GNULIB_STRNCAT])
+  GNULIB_STRNDUP=0;     AC_SUBST([GNULIB_STRNDUP])
+  GNULIB_STRNLEN=0;     AC_SUBST([GNULIB_STRNLEN])
+  GNULIB_STRPBRK=0;     AC_SUBST([GNULIB_STRPBRK])
+  GNULIB_STRSEP=0;      AC_SUBST([GNULIB_STRSEP])
+  GNULIB_STRSTR=0;      AC_SUBST([GNULIB_STRSTR])
+  GNULIB_STRCASESTR=0;  AC_SUBST([GNULIB_STRCASESTR])
+  GNULIB_STRTOK_R=0;    AC_SUBST([GNULIB_STRTOK_R])
+  GNULIB_MBSLEN=0;      AC_SUBST([GNULIB_MBSLEN])
+  GNULIB_MBSNLEN=0;     AC_SUBST([GNULIB_MBSNLEN])
+  GNULIB_MBSCHR=0;      AC_SUBST([GNULIB_MBSCHR])
+  GNULIB_MBSRCHR=0;     AC_SUBST([GNULIB_MBSRCHR])
+  GNULIB_MBSSTR=0;      AC_SUBST([GNULIB_MBSSTR])
+  GNULIB_MBSCASECMP=0;  AC_SUBST([GNULIB_MBSCASECMP])
+  GNULIB_MBSNCASECMP=0; AC_SUBST([GNULIB_MBSNCASECMP])
+  GNULIB_MBSPCASECMP=0; AC_SUBST([GNULIB_MBSPCASECMP])
+  GNULIB_MBSCASESTR=0;  AC_SUBST([GNULIB_MBSCASESTR])
+  GNULIB_MBSCSPN=0;     AC_SUBST([GNULIB_MBSCSPN])
+  GNULIB_MBSPBRK=0;     AC_SUBST([GNULIB_MBSPBRK])
+  GNULIB_MBSSPN=0;      AC_SUBST([GNULIB_MBSSPN])
+  GNULIB_MBSSEP=0;      AC_SUBST([GNULIB_MBSSEP])
+  GNULIB_MBSTOK_R=0;    AC_SUBST([GNULIB_MBSTOK_R])
+  GNULIB_STRERROR=0;    AC_SUBST([GNULIB_STRERROR])
+  GNULIB_STRERROR_R=0;  AC_SUBST([GNULIB_STRERROR_R])
+  GNULIB_STRSIGNAL=0;   AC_SUBST([GNULIB_STRSIGNAL])
+  GNULIB_STRVERSCMP=0;  AC_SUBST([GNULIB_STRVERSCMP])
+  HAVE_MBSLEN=0;        AC_SUBST([HAVE_MBSLEN])
+  dnl Assume proper GNU behavior unless another module says otherwise.
+  HAVE_MEMCHR=1;                AC_SUBST([HAVE_MEMCHR])
+  HAVE_DECL_MEMMEM=1;           AC_SUBST([HAVE_DECL_MEMMEM])
+  HAVE_MEMPCPY=1;               AC_SUBST([HAVE_MEMPCPY])
+  HAVE_DECL_MEMRCHR=1;          AC_SUBST([HAVE_DECL_MEMRCHR])
+  HAVE_RAWMEMCHR=1;             AC_SUBST([HAVE_RAWMEMCHR])
+  HAVE_STPCPY=1;                AC_SUBST([HAVE_STPCPY])
+  HAVE_STPNCPY=1;               AC_SUBST([HAVE_STPNCPY])
+  HAVE_STRCHRNUL=1;             AC_SUBST([HAVE_STRCHRNUL])
+  HAVE_DECL_STRDUP=1;           AC_SUBST([HAVE_DECL_STRDUP])
+  HAVE_DECL_STRNDUP=1;          AC_SUBST([HAVE_DECL_STRNDUP])
+  HAVE_DECL_STRNLEN=1;          AC_SUBST([HAVE_DECL_STRNLEN])
+  HAVE_STRPBRK=1;               AC_SUBST([HAVE_STRPBRK])
+  HAVE_STRSEP=1;                AC_SUBST([HAVE_STRSEP])
+  HAVE_STRCASESTR=1;            AC_SUBST([HAVE_STRCASESTR])
+  HAVE_DECL_STRTOK_R=1;         AC_SUBST([HAVE_DECL_STRTOK_R])
+  HAVE_DECL_STRERROR_R=1;       AC_SUBST([HAVE_DECL_STRERROR_R])
+  HAVE_DECL_STRSIGNAL=1;        AC_SUBST([HAVE_DECL_STRSIGNAL])
+  HAVE_STRVERSCMP=1;            AC_SUBST([HAVE_STRVERSCMP])
+  REPLACE_MEMCHR=0;             AC_SUBST([REPLACE_MEMCHR])
+  REPLACE_MEMMEM=0;             AC_SUBST([REPLACE_MEMMEM])
+  REPLACE_STPNCPY=0;            AC_SUBST([REPLACE_STPNCPY])
+  REPLACE_STRDUP=0;             AC_SUBST([REPLACE_STRDUP])
+  REPLACE_STRSTR=0;             AC_SUBST([REPLACE_STRSTR])
+  REPLACE_STRCASESTR=0;         AC_SUBST([REPLACE_STRCASESTR])
+  REPLACE_STRCHRNUL=0;          AC_SUBST([REPLACE_STRCHRNUL])
+  REPLACE_STRERROR=0;           AC_SUBST([REPLACE_STRERROR])
+  REPLACE_STRERROR_R=0;         AC_SUBST([REPLACE_STRERROR_R])
+  REPLACE_STRNCAT=0;            AC_SUBST([REPLACE_STRNCAT])
+  REPLACE_STRNDUP=0;            AC_SUBST([REPLACE_STRNDUP])
+  REPLACE_STRNLEN=0;            AC_SUBST([REPLACE_STRNLEN])
+  REPLACE_STRSIGNAL=0;          AC_SUBST([REPLACE_STRSIGNAL])
+  REPLACE_STRTOK_R=0;           AC_SUBST([REPLACE_STRTOK_R])
+  UNDEFINE_STRTOK_R=0;          AC_SUBST([UNDEFINE_STRTOK_R])
+])
+m4trace:m4/warn-on-use.m4:24: -1- AC_DEFUN([gl_WARN_ON_USE_PREPARE], [
+  m4_foreach_w([gl_decl], [$2],
+    [AH_TEMPLATE([HAVE_RAW_DECL_]AS_TR_CPP(m4_defn([gl_decl])),
+      [Define to 1 if ]m4_defn([gl_decl])[ is declared even after
+       undefining macros.])])dnl
+  for gl_func in m4_flatten([$2]); do
+    AS_VAR_PUSHDEF([gl_Symbol], [gl_cv_have_raw_decl_$gl_func])dnl
+    AC_CACHE_CHECK([whether $gl_func is declared without a macro],
+      gl_Symbol,
+      [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([$1],
+[@%:@undef $gl_func
+  (void) $gl_func;])],
+        [AS_VAR_SET(gl_Symbol, [yes])], [AS_VAR_SET(gl_Symbol, [no])])])
+     AS_VAR_IF(gl_Symbol, [yes],
+       [AC_DEFINE_UNQUOTED(AS_TR_CPP([HAVE_RAW_DECL_$gl_func]), [1])
+       dnl shortcut - if the raw declaration exists, then set a cache
+       dnl variable to allow skipping any later AC_CHECK_DECL efforts
+       eval ac_cv_have_decl_$gl_func=yes])
+    AS_VAR_POPDEF([gl_Symbol])dnl
+  done
+])
+m4trace:m4/wchar_t.m4:11: -1- AC_DEFUN([gt_TYPE_WCHAR_T], [
+  AC_CACHE_CHECK([for wchar_t], [gt_cv_c_wchar_t],
+    [AC_COMPILE_IFELSE(
+       [AC_LANG_PROGRAM(
+          [[#include <stddef.h>
+            wchar_t foo = (wchar_t)'\0';]],
+          [[]])],
+       [gt_cv_c_wchar_t=yes],
+       [gt_cv_c_wchar_t=no])])
+  if test $gt_cv_c_wchar_t = yes; then
+    AC_DEFINE([HAVE_WCHAR_T], [1], [Define if you have the 'wchar_t' type.])
+  fi
+])
+m4trace:configure.ac:14: -1- m4_pattern_forbid([^_?A[CHUM]_])
+m4trace:configure.ac:14: -1- m4_pattern_forbid([_AC_])
+m4trace:configure.ac:14: -1- m4_pattern_forbid([^LIBOBJS$], [do not use LIBOBJS directly, use AC_LIBOBJ (see section `AC_LIBOBJ vs LIBOBJS'])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^AS_FLAGS$])
+m4trace:configure.ac:14: -1- m4_pattern_forbid([^_?m4_])
+m4trace:configure.ac:14: -1- m4_pattern_forbid([^dnl$])
+m4trace:configure.ac:14: -1- m4_pattern_forbid([^_?AS_])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^SHELL$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^PATH_SEPARATOR$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^PACKAGE_NAME$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^PACKAGE_TARNAME$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^PACKAGE_VERSION$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^PACKAGE_STRING$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^PACKAGE_BUGREPORT$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^PACKAGE_URL$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^exec_prefix$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^prefix$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^program_transform_name$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^bindir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^sbindir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^libexecdir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^datarootdir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^datadir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^sysconfdir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^sharedstatedir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^localstatedir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^includedir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^oldincludedir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^docdir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^infodir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^htmldir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^dvidir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^pdfdir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^psdir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^libdir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^localedir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^mandir$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^PACKAGE_NAME$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^PACKAGE_TARNAME$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^PACKAGE_VERSION$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^PACKAGE_STRING$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^PACKAGE_BUGREPORT$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^PACKAGE_URL$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^DEFS$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^ECHO_C$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^ECHO_N$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^ECHO_T$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^LIBS$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^build_alias$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^host_alias$])
+m4trace:configure.ac:14: -1- m4_pattern_allow([^target_alias$])
+m4trace:configure.ac:17: -1- _m4_warn([obsolete], [The macro `AC_CANONICAL_SYSTEM' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:1857: AC_CANONICAL_SYSTEM is expanded from...
+configure.ac:17: the top level])
+m4trace:configure.ac:17: -1- m4_pattern_allow([^build$])
+m4trace:configure.ac:17: -1- m4_pattern_allow([^build_cpu$])
+m4trace:configure.ac:17: -1- m4_pattern_allow([^build_vendor$])
+m4trace:configure.ac:17: -1- m4_pattern_allow([^build_os$])
+m4trace:configure.ac:17: -1- m4_pattern_allow([^host$])
+m4trace:configure.ac:17: -1- m4_pattern_allow([^host_cpu$])
+m4trace:configure.ac:17: -1- m4_pattern_allow([^host_vendor$])
+m4trace:configure.ac:17: -1- m4_pattern_allow([^host_os$])
+m4trace:configure.ac:17: -1- m4_pattern_allow([^target$])
+m4trace:configure.ac:17: -1- m4_pattern_allow([^target_cpu$])
+m4trace:configure.ac:17: -1- m4_pattern_allow([^target_vendor$])
+m4trace:configure.ac:17: -1- m4_pattern_allow([^target_os$])
+m4trace:configure.ac:22: -1- AM_INIT_AUTOMAKE([foreign])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^AM_[A-Z]+FLAGS$])
+m4trace:configure.ac:22: -1- AM_SET_CURRENT_AUTOMAKE_VERSION
+m4trace:configure.ac:22: -1- AM_AUTOMAKE_VERSION([1.11.6])
+m4trace:configure.ac:22: -1- _AM_AUTOCONF_VERSION([2.69])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^INSTALL_PROGRAM$])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^INSTALL_SCRIPT$])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^INSTALL_DATA$])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^am__isrc$])
+m4trace:configure.ac:22: -1- _AM_SUBST_NOTMAKE([am__isrc])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^CYGPATH_W$])
+m4trace:configure.ac:22: -1- _AM_SET_OPTIONS([foreign])
+m4trace:configure.ac:22: -1- _AM_SET_OPTION([foreign])
+m4trace:configure.ac:22: -2- _AM_MANGLE_OPTION([foreign])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^PACKAGE$])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^VERSION$])
+m4trace:configure.ac:22: -1- _AM_IF_OPTION([no-define], [], [AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE", [Name of package])
+ AC_DEFINE_UNQUOTED(VERSION, "$VERSION", [Version number of package])])
+m4trace:configure.ac:22: -2- _AM_MANGLE_OPTION([no-define])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^PACKAGE$])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^VERSION$])
+m4trace:configure.ac:22: -1- AM_SANITY_CHECK
+m4trace:configure.ac:22: -1- AM_MISSING_PROG([ACLOCAL], [aclocal-${am__api_version}])
+m4trace:configure.ac:22: -1- AM_MISSING_HAS_RUN
+m4trace:configure.ac:22: -1- AM_AUX_DIR_EXPAND
+m4trace:configure.ac:22: -1- m4_pattern_allow([^ACLOCAL$])
+m4trace:configure.ac:22: -1- AM_MISSING_PROG([AUTOCONF], [autoconf])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^AUTOCONF$])
+m4trace:configure.ac:22: -1- AM_MISSING_PROG([AUTOMAKE], [automake-${am__api_version}])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^AUTOMAKE$])
+m4trace:configure.ac:22: -1- AM_MISSING_PROG([AUTOHEADER], [autoheader])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^AUTOHEADER$])
+m4trace:configure.ac:22: -1- AM_MISSING_PROG([MAKEINFO], [makeinfo])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^MAKEINFO$])
+m4trace:configure.ac:22: -1- AM_PROG_INSTALL_SH
+m4trace:configure.ac:22: -1- m4_pattern_allow([^install_sh$])
+m4trace:configure.ac:22: -1- AM_PROG_INSTALL_STRIP
+m4trace:configure.ac:22: -1- m4_pattern_allow([^STRIP$])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^INSTALL_STRIP_PROGRAM$])
+m4trace:configure.ac:22: -1- AM_PROG_MKDIR_P
+m4trace:configure.ac:22: -1- AC_PROG_MKDIR_P
+m4trace:configure.ac:22: -1- m4_pattern_allow([^MKDIR_P$])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^MKDIR_P$])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^mkdir_p$])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^AWK$])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^SET_MAKE$])
+m4trace:configure.ac:22: -1- AM_SET_LEADING_DOT
+m4trace:configure.ac:22: -1- m4_pattern_allow([^am__leading_dot$])
+m4trace:configure.ac:22: -1- _AM_IF_OPTION([tar-ustar], [_AM_PROG_TAR([ustar])], [_AM_IF_OPTION([tar-pax], [_AM_PROG_TAR([pax])],
+			     [_AM_PROG_TAR([v7])])])
+m4trace:configure.ac:22: -2- _AM_MANGLE_OPTION([tar-ustar])
+m4trace:configure.ac:22: -1- _AM_IF_OPTION([tar-pax], [_AM_PROG_TAR([pax])], [_AM_PROG_TAR([v7])])
+m4trace:configure.ac:22: -2- _AM_MANGLE_OPTION([tar-pax])
+m4trace:configure.ac:22: -1- _AM_PROG_TAR([v7])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^AMTAR$])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^am__tar$])
+m4trace:configure.ac:22: -1- m4_pattern_allow([^am__untar$])
+m4trace:configure.ac:22: -1- _AM_IF_OPTION([no-dependencies], [], [AC_PROVIDE_IFELSE([AC_PROG_CC],
+		  [_AM_DEPENDENCIES(CC)],
+		  [define([AC_PROG_CC],
+			  defn([AC_PROG_CC])[_AM_DEPENDENCIES(CC)])])dnl
+AC_PROVIDE_IFELSE([AC_PROG_CXX],
+		  [_AM_DEPENDENCIES(CXX)],
+		  [define([AC_PROG_CXX],
+			  defn([AC_PROG_CXX])[_AM_DEPENDENCIES(CXX)])])dnl
+AC_PROVIDE_IFELSE([AC_PROG_OBJC],
+		  [_AM_DEPENDENCIES(OBJC)],
+		  [define([AC_PROG_OBJC],
+			  defn([AC_PROG_OBJC])[_AM_DEPENDENCIES(OBJC)])])dnl
+])
+m4trace:configure.ac:22: -2- _AM_MANGLE_OPTION([no-dependencies])
+m4trace:configure.ac:22: -1- _AM_IF_OPTION([silent-rules], [AC_REQUIRE([AM_SILENT_RULES])])
+m4trace:configure.ac:22: -2- _AM_MANGLE_OPTION([silent-rules])
+m4trace:configure.ac:23: -1- AM_SILENT_RULES([yes])
+m4trace:configure.ac:23: -1- m4_pattern_allow([^AM_V$])
+m4trace:configure.ac:23: -1- AM_SUBST_NOTMAKE([AM_V])
+m4trace:configure.ac:23: -1- _AM_SUBST_NOTMAKE([AM_V])
+m4trace:configure.ac:23: -1- m4_pattern_allow([^AM_DEFAULT_V$])
+m4trace:configure.ac:23: -1- AM_SUBST_NOTMAKE([AM_DEFAULT_V])
+m4trace:configure.ac:23: -1- _AM_SUBST_NOTMAKE([AM_DEFAULT_V])
+m4trace:configure.ac:23: -1- m4_pattern_allow([^AM_DEFAULT_VERBOSITY$])
+m4trace:configure.ac:23: -1- m4_pattern_allow([^AM_BACKSLASH$])
+m4trace:configure.ac:23: -1- _AM_SUBST_NOTMAKE([AM_BACKSLASH])
+m4trace:configure.ac:24: -1- AC_USE_SYSTEM_EXTENSIONS
+m4trace:configure.ac:24: -1- m4_pattern_allow([^CC$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^CFLAGS$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^LDFLAGS$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^LIBS$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^CPPFLAGS$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^CC$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^CC$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^CC$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^CC$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^ac_ct_CC$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^EXEEXT$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^OBJEXT$])
+m4trace:configure.ac:24: -1- _AM_DEPENDENCIES([CC])
+m4trace:configure.ac:24: -1- AM_SET_DEPDIR
+m4trace:configure.ac:24: -1- m4_pattern_allow([^DEPDIR$])
+m4trace:configure.ac:24: -1- AM_OUTPUT_DEPENDENCY_COMMANDS
+m4trace:configure.ac:24: -1- AM_MAKE_INCLUDE
+m4trace:configure.ac:24: -1- m4_pattern_allow([^am__include$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^am__quote$])
+m4trace:configure.ac:24: -1- AM_DEP_TRACK
+m4trace:configure.ac:24: -1- AM_CONDITIONAL([AMDEP], [test "x$enable_dependency_tracking" != xno])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^AMDEP_TRUE$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^AMDEP_FALSE$])
+m4trace:configure.ac:24: -1- _AM_SUBST_NOTMAKE([AMDEP_TRUE])
+m4trace:configure.ac:24: -1- _AM_SUBST_NOTMAKE([AMDEP_FALSE])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^AMDEPBACKSLASH$])
+m4trace:configure.ac:24: -1- _AM_SUBST_NOTMAKE([AMDEPBACKSLASH])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^am__nodep$])
+m4trace:configure.ac:24: -1- _AM_SUBST_NOTMAKE([am__nodep])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^CCDEPMODE$])
+m4trace:configure.ac:24: -1- AM_CONDITIONAL([am__fastdepCC], [
+  test "x$enable_dependency_tracking" != xno \
+  && test "$am_cv_CC_dependencies_compiler_type" = gcc3])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^am__fastdepCC_TRUE$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^am__fastdepCC_FALSE$])
+m4trace:configure.ac:24: -1- _AM_SUBST_NOTMAKE([am__fastdepCC_TRUE])
+m4trace:configure.ac:24: -1- _AM_SUBST_NOTMAKE([am__fastdepCC_FALSE])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^CPP$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^CPPFLAGS$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^CPP$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^GREP$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^EGREP$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^STDC_HEADERS$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^_POSIX_SOURCE$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^_POSIX_1_SOURCE$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^_MINIX$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^_XOPEN_SOURCE$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^__EXTENSIONS__$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^_ALL_SOURCE$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^_GNU_SOURCE$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^_POSIX_PTHREAD_SEMANTICS$])
+m4trace:configure.ac:24: -1- m4_pattern_allow([^_TANDEM_SOURCE$])
+m4trace:configure.ac:30: -1- m4_pattern_allow([^CGMINER_MAJOR_VERSION$])
+m4trace:configure.ac:31: -1- m4_pattern_allow([^CGMINER_MINOR_VERSION$])
+m4trace:configure.ac:32: -1- m4_pattern_allow([^CGMINER_MINOR_SUBVERSION$])
+m4trace:configure.ac:35: -1- m4_pattern_allow([^version_info$])
+m4trace:configure.ac:36: -1- m4_pattern_allow([^release_info$])
+m4trace:configure.ac:40: -1- m4_pattern_allow([^VMAJ$])
+m4trace:configure.ac:46: -1- AM_MAINTAINER_MODE
+m4trace:configure.ac:46: -1- AM_CONDITIONAL([MAINTAINER_MODE], [test $USE_MAINTAINER_MODE = yes])
+m4trace:configure.ac:46: -1- m4_pattern_allow([^MAINTAINER_MODE_TRUE$])
+m4trace:configure.ac:46: -1- m4_pattern_allow([^MAINTAINER_MODE_FALSE$])
+m4trace:configure.ac:46: -1- _AM_SUBST_NOTMAKE([MAINTAINER_MODE_TRUE])
+m4trace:configure.ac:46: -1- _AM_SUBST_NOTMAKE([MAINTAINER_MODE_FALSE])
+m4trace:configure.ac:46: -1- m4_pattern_allow([^MAINT$])
+m4trace:configure.ac:49: -1- m4_pattern_allow([^CC$])
+m4trace:configure.ac:49: -1- m4_pattern_allow([^CFLAGS$])
+m4trace:configure.ac:49: -1- m4_pattern_allow([^LDFLAGS$])
+m4trace:configure.ac:49: -1- m4_pattern_allow([^LIBS$])
+m4trace:configure.ac:49: -1- m4_pattern_allow([^CPPFLAGS$])
+m4trace:configure.ac:49: -1- m4_pattern_allow([^CC$])
+m4trace:configure.ac:49: -1- m4_pattern_allow([^CC$])
+m4trace:configure.ac:49: -1- m4_pattern_allow([^CC$])
+m4trace:configure.ac:49: -1- m4_pattern_allow([^CC$])
+m4trace:configure.ac:49: -1- m4_pattern_allow([^ac_ct_CC$])
+m4trace:configure.ac:49: -1- _AM_DEPENDENCIES([CC])
+m4trace:configure.ac:49: -1- m4_pattern_allow([^CCDEPMODE$])
+m4trace:configure.ac:49: -1- AM_CONDITIONAL([am__fastdepCC], [
+  test "x$enable_dependency_tracking" != xno \
+  && test "$am_cv_CC_dependencies_compiler_type" = gcc3])
+m4trace:configure.ac:49: -1- m4_pattern_allow([^am__fastdepCC_TRUE$])
+m4trace:configure.ac:49: -1- m4_pattern_allow([^am__fastdepCC_FALSE$])
+m4trace:configure.ac:49: -1- _AM_SUBST_NOTMAKE([am__fastdepCC_TRUE])
+m4trace:configure.ac:49: -1- _AM_SUBST_NOTMAKE([am__fastdepCC_FALSE])
+m4trace:configure.ac:50: -1- gl_EARLY
+m4trace:configure.ac:50: -1- m4_pattern_forbid([^gl_[A-Z]])
+m4trace:configure.ac:50: -1- m4_pattern_allow([^gl_ES$])
+m4trace:configure.ac:50: -1- m4_pattern_allow([^gl_LIBOBJS$])
+m4trace:configure.ac:50: -1- m4_pattern_allow([^gl_LTLIBOBJS$])
+m4trace:configure.ac:50: -1- m4_pattern_allow([^RANLIB$])
+m4trace:configure.ac:50: -1- gl_USE_SYSTEM_EXTENSIONS
+m4trace:configure.ac:50: -1- _m4_warn([obsolete], [The macro `AC_GNU_SOURCE' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/specific.m4:314: AC_GNU_SOURCE is expanded from...
+m4/gnulib-comp.m4:22: gl_EARLY is expanded from...
+configure.ac:50: the top level])
+m4trace:configure.ac:50: -1- AC_USE_SYSTEM_EXTENSIONS
+m4trace:configure.ac:52: -1- AM_PROG_CC_C_O
+m4trace:configure.ac:52: -1- m4_pattern_allow([^NO_MINUS_C_MINUS_O$])
+m4trace:configure.ac:53: -1- m4_pattern_allow([^RANLIB$])
+m4trace:configure.ac:55: -1- gl_INIT
+m4trace:configure.ac:55: -1- AM_CONDITIONAL([GL_COND_LIBTOOL], [false])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GL_COND_LIBTOOL_TRUE$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GL_COND_LIBTOOL_FALSE$])
+m4trace:configure.ac:55: -1- _AM_SUBST_NOTMAKE([GL_COND_LIBTOOL_TRUE])
+m4trace:configure.ac:55: -1- _AM_SUBST_NOTMAKE([GL_COND_LIBTOOL_FALSE])
+m4trace:configure.ac:55: -1- gl_COMMON
+m4trace:configure.ac:55: -1- gl_00GNULIB
+m4trace:configure.ac:55: -1- gl_COMMON_BODY
+m4trace:configure.ac:55: -1- gl_FUNC_MEMCHR
+m4trace:configure.ac:55: -1- gl_FUNC_MMAP_ANON
+m4trace:configure.ac:55: -1- m4_pattern_allow([^MAP_ANONYMOUS$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_MAP_ANONYMOUS$])
+m4trace:configure.ac:55: -1- AC_CHECK_HEADERS_ONCE([sys/mman.h])
+m4trace:configure.ac:55: -1- AC_DEFUN([gl_CHECK_HEADER_sys_mman_h], [
+      m4_divert_text([INIT_PREPARE],
+        [gl_header_list="$gl_header_list gl_HEADER_NAME"])
+      gl_HEADERS_EXPANSION
+      AH_TEMPLATE(AS_TR_CPP([HAVE_]m4_defn([gl_HEADER_NAME])),
+        [Define to 1 if you have the <]m4_defn([gl_HEADER_NAME])[> header file.])
+    ])
+m4trace:configure.ac:55: -1- AC_CHECK_FUNCS_ONCE([mprotect])
+m4trace:configure.ac:55: -1- AC_DEFUN([gl_CHECK_FUNC_mprotect], [
+      m4_divert_text([INIT_PREPARE],
+        [gl_func_list="$gl_func_list gl_FUNC_NAME"])
+      gl_FUNCS_EXPANSION
+      AH_TEMPLATE(AS_TR_CPP([HAVE_]m4_defn([gl_FUNC_NAME])),
+        [Define to 1 if you have the `]m4_defn([gl_FUNC_NAME])[' function.])
+    ])
+m4trace:configure.ac:55: -1- gl_HEADER_STRING_H_DEFAULTS
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MEMCHR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MEMMEM$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MEMPCPY$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MEMRCHR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_RAWMEMCHR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STPCPY$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STPNCPY$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STRCHRNUL$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STRDUP$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STRNCAT$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STRNDUP$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STRNLEN$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STRPBRK$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STRSEP$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STRSTR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STRCASESTR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STRTOK_R$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MBSLEN$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MBSNLEN$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MBSCHR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MBSRCHR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MBSSTR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MBSCASECMP$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MBSNCASECMP$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MBSPCASECMP$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MBSCASESTR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MBSCSPN$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MBSPBRK$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MBSSPN$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MBSSEP$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_MBSTOK_R$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STRERROR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STRERROR_R$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STRSIGNAL$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_STRVERSCMP$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_MBSLEN$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_MEMCHR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_DECL_MEMMEM$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_MEMPCPY$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_DECL_MEMRCHR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_RAWMEMCHR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_STPCPY$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_STPNCPY$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_STRCHRNUL$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_DECL_STRDUP$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_DECL_STRNDUP$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_DECL_STRNLEN$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_STRPBRK$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_STRSEP$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_STRCASESTR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_DECL_STRTOK_R$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_DECL_STRERROR_R$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_DECL_STRSIGNAL$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_STRVERSCMP$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_MEMCHR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_MEMMEM$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_STPNCPY$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_STRDUP$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_STRSTR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_STRCASESTR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_STRCHRNUL$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_STRERROR$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_STRERROR_R$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_STRNCAT$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_STRNDUP$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_STRNLEN$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_STRSIGNAL$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_STRTOK_R$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^UNDEFINE_STRTOK_R$])
+m4trace:configure.ac:55: -1- gl_LIBSOURCES([memchr.c])
+m4trace:configure.ac:55: -1- gl_PREREQ_MEMCHR
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_BP_SYM_H$])
+m4trace:configure.ac:55: -1- gl_STRING_MODULE_INDICATOR([memchr])
+m4trace:configure.ac:55: -1- gl_MODULE_INDICATOR_SET_VARIABLE([memchr])
+m4trace:configure.ac:55: -1- gl_MODULE_INDICATOR_SET_VARIABLE_AUX([GNULIB_[]m4_translit([[memchr]],
+                          [abcdefghijklmnopqrstuvwxyz./-],
+                          [ABCDEFGHIJKLMNOPQRSTUVWXYZ___])], [gl_MODULE_INDICATOR_CONDITION])
+m4trace:configure.ac:55: -1- gl_MODULE_INDICATOR_FOR_TESTS([memchr])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_TEST_MEMCHR$])
+m4trace:configure.ac:55: -1- gl_FUNC_MEMMEM
+m4trace:configure.ac:55: -1- gl_FUNC_MEMMEM_SIMPLE
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_MEMMEM$])
+m4trace:configure.ac:55: -1- AC_CHECK_DECLS_ONCE([memmem])
+m4trace:configure.ac:55: -1- AC_DEFUN([gl_CHECK_DECL_memmem], [
+      AC_CHECK_DECLS(m4_defn([gl_DECL_NAME]))
+    ])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_DECL_MEMMEM$])
+m4trace:configure.ac:55: -1- gl_PREREQ_MEMMEM
+m4trace:configure.ac:55: -1- gl_LIBSOURCES([memmem.c])
+m4trace:configure.ac:55: -1- gl_FUNC_MEMMEM_SIMPLE
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_MEMMEM$])
+m4trace:configure.ac:55: -1- AC_CHECK_DECLS_ONCE([memmem])
+m4trace:configure.ac:55: -1- AC_DEFUN([gl_CHECK_DECL_memmem], [
+      AC_CHECK_DECLS(m4_defn([gl_DECL_NAME]))
+    ])
+m4trace:configure.ac:55: -1- gl_PREREQ_MEMMEM
+m4trace:configure.ac:55: -1- gl_LIBSOURCES([memmem.c])
+m4trace:configure.ac:55: -1- gl_STRING_MODULE_INDICATOR([memmem])
+m4trace:configure.ac:55: -1- gl_MODULE_INDICATOR_SET_VARIABLE([memmem])
+m4trace:configure.ac:55: -1- gl_MODULE_INDICATOR_SET_VARIABLE_AUX([GNULIB_[]m4_translit([[memmem]],
+                          [abcdefghijklmnopqrstuvwxyz./-],
+                          [ABCDEFGHIJKLMNOPQRSTUVWXYZ___])], [gl_MODULE_INDICATOR_CONDITION])
+m4trace:configure.ac:55: -1- gl_MODULE_INDICATOR_FOR_TESTS([memmem])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_TEST_MEMMEM$])
+m4trace:configure.ac:55: -1- gl_MULTIARCH
+m4trace:configure.ac:55: -1- m4_pattern_allow([^APPLE_UNIVERSAL_BUILD$])
+m4trace:configure.ac:55: -1- gl_SIGACTION
+m4trace:configure.ac:55: -1- gl_SIGNAL_H_DEFAULTS
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_SIGNAL_H_SIGPIPE$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_SIGPROCMASK$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_SIGACTION$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_POSIX_SIGNALBLOCKING$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_SIGSET_T$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_SIGINFO_T$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_SIGACTION$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_STRUCT_SIGACTION_SA_SIGACTION$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_TYPE_VOLATILE_SIG_ATOMIC_T$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_SIGHANDLER_T$])
+m4trace:configure.ac:55: -1- AC_CHECK_FUNCS_ONCE([sigaction])
+m4trace:configure.ac:55: -1- AC_DEFUN([gl_CHECK_FUNC_sigaction], [
+      m4_divert_text([INIT_PREPARE],
+        [gl_func_list="$gl_func_list gl_FUNC_NAME"])
+      gl_FUNCS_EXPANSION
+      AH_TEMPLATE(AS_TR_CPP([HAVE_]m4_defn([gl_FUNC_NAME])),
+        [Define to 1 if you have the `]m4_defn([gl_FUNC_NAME])[' function.])
+    ])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_STRUCT_SIGACTION_SA_SIGACTION$])
+m4trace:configure.ac:55: -1- gl_LIBSOURCES([sigaction.c])
+m4trace:configure.ac:55: -1- gl_PREREQ_SIGACTION
+m4trace:configure.ac:55: -1- AC_C_RESTRICT
+m4trace:configure.ac:55: -1- m4_pattern_allow([^restrict$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^restrict$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^uid_t$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^gid_t$])
+m4trace:configure.ac:55: -1- gl_PREREQ_SIG_HANDLER_H
+m4trace:configure.ac:55: -1- AC_CHECK_FUNCS_ONCE([sigaltstack siginterrupt])
+m4trace:configure.ac:55: -1- AC_DEFUN([gl_CHECK_FUNC_sigaltstack], [
+      m4_divert_text([INIT_PREPARE],
+        [gl_func_list="$gl_func_list gl_FUNC_NAME"])
+      gl_FUNCS_EXPANSION
+      AH_TEMPLATE(AS_TR_CPP([HAVE_]m4_defn([gl_FUNC_NAME])),
+        [Define to 1 if you have the `]m4_defn([gl_FUNC_NAME])[' function.])
+    ])
+m4trace:configure.ac:55: -1- AC_DEFUN([gl_CHECK_FUNC_siginterrupt], [
+      m4_divert_text([INIT_PREPARE],
+        [gl_func_list="$gl_func_list gl_FUNC_NAME"])
+      gl_FUNCS_EXPANSION
+      AH_TEMPLATE(AS_TR_CPP([HAVE_]m4_defn([gl_FUNC_NAME])),
+        [Define to 1 if you have the `]m4_defn([gl_FUNC_NAME])[' function.])
+    ])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_SIGINFO_T$])
+m4trace:configure.ac:55: -1- gl_SIGNAL_MODULE_INDICATOR([sigaction])
+m4trace:configure.ac:55: -1- gl_MODULE_INDICATOR_SET_VARIABLE([sigaction])
+m4trace:configure.ac:55: -1- gl_MODULE_INDICATOR_SET_VARIABLE_AUX([GNULIB_[]m4_translit([[sigaction]],
+                          [abcdefghijklmnopqrstuvwxyz./-],
+                          [ABCDEFGHIJKLMNOPQRSTUVWXYZ___])], [gl_MODULE_INDICATOR_CONDITION])
+m4trace:configure.ac:55: -1- gl_MODULE_INDICATOR_FOR_TESTS([sigaction])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_TEST_SIGACTION$])
+m4trace:configure.ac:55: -1- gl_SIGNAL_H
+m4trace:configure.ac:55: -1- gl_NEXT_HEADERS([signal.h])
+m4trace:configure.ac:55: -1- gl_NEXT_HEADERS_INTERNAL([signal.h], [assume])
+m4trace:configure.ac:55: -1- gl_INCLUDE_NEXT
+m4trace:configure.ac:55: -1- m4_pattern_allow([^INCLUDE_NEXT$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^INCLUDE_NEXT_AS_FIRST_DIRECTIVE$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^PRAGMA_SYSTEM_HEADER$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^PRAGMA_COLUMNS$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^NEXT_SIGNAL_H$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^NEXT_AS_FIRST_DIRECTIVE_SIGNAL_H$])
+m4trace:configure.ac:55: -1- gl_WARN_ON_USE_PREPARE([[#include <signal.h>
+    ]], [sigaction sigaddset sigdelset sigemptyset sigfillset sigismember
+    sigpending sigprocmask])
+m4trace:configure.ac:55: -1- gl_SIGNALBLOCKING
+m4trace:configure.ac:55: -1- gl_LIBSOURCES([sigprocmask.c])
+m4trace:configure.ac:55: -1- gl_PREREQ_SIGPROCMASK
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_SIGSET_T$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_SIGSET_T$])
+m4trace:configure.ac:55: -1- gl_SIGNAL_MODULE_INDICATOR([sigprocmask])
+m4trace:configure.ac:55: -1- gl_MODULE_INDICATOR_SET_VARIABLE([sigprocmask])
+m4trace:configure.ac:55: -1- gl_MODULE_INDICATOR_SET_VARIABLE_AUX([GNULIB_[]m4_translit([[sigprocmask]],
+                          [abcdefghijklmnopqrstuvwxyz./-],
+                          [ABCDEFGHIJKLMNOPQRSTUVWXYZ___])], [gl_MODULE_INDICATOR_CONDITION])
+m4trace:configure.ac:55: -1- gl_MODULE_INDICATOR_FOR_TESTS([sigprocmask])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GNULIB_TEST_SIGPROCMASK$])
+m4trace:configure.ac:55: -1- gl_STDDEF_H
+m4trace:configure.ac:55: -1- gl_STDDEF_H_DEFAULTS
+m4trace:configure.ac:55: -1- m4_pattern_allow([^REPLACE_NULL$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_WCHAR_T$])
+m4trace:configure.ac:55: -1- gt_TYPE_WCHAR_T
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_WCHAR_T$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^STDDEF_H$])
+m4trace:configure.ac:55: -1- AM_CONDITIONAL([GL_GENERATE_STDDEF_H], [test -n "$STDDEF_H"])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GL_GENERATE_STDDEF_H_TRUE$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GL_GENERATE_STDDEF_H_FALSE$])
+m4trace:configure.ac:55: -1- _AM_SUBST_NOTMAKE([GL_GENERATE_STDDEF_H_TRUE])
+m4trace:configure.ac:55: -1- _AM_SUBST_NOTMAKE([GL_GENERATE_STDDEF_H_FALSE])
+m4trace:configure.ac:55: -1- gl_NEXT_HEADERS([stddef.h])
+m4trace:configure.ac:55: -1- gl_NEXT_HEADERS_INTERNAL([stddef.h], [assume])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^NEXT_STDDEF_H$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^NEXT_AS_FIRST_DIRECTIVE_STDDEF_H$])
+m4trace:configure.ac:55: -1- gl_STDINT_H
+m4trace:configure.ac:55: -1- AC_TYPE_LONG_LONG_INT
+m4trace:configure.ac:55: -1- AC_TYPE_UNSIGNED_LONG_LONG_INT
+m4trace:configure.ac:55: -1- _AC_TYPE_LONG_LONG_SNIPPET
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_UNSIGNED_LONG_LONG_INT$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_LONG_LONG_INT$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_LONG_LONG_INT$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_UNSIGNED_LONG_LONG_INT$])
+m4trace:configure.ac:55: -1- AC_CHECK_HEADERS_ONCE([wchar.h])
+m4trace:configure.ac:55: -1- AC_DEFUN([gl_CHECK_HEADER_wchar_h], [
+      m4_divert_text([INIT_PREPARE],
+        [gl_header_list="$gl_header_list gl_HEADER_NAME"])
+      gl_HEADERS_EXPANSION
+      AH_TEMPLATE(AS_TR_CPP([HAVE_]m4_defn([gl_HEADER_NAME])),
+        [Define to 1 if you have the <]m4_defn([gl_HEADER_NAME])[> header file.])
+    ])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_WCHAR_H$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_INTTYPES_H$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_SYS_TYPES_H$])
+m4trace:configure.ac:55: -1- gl_CHECK_NEXT_HEADERS([stdint.h])
+m4trace:configure.ac:55: -1- gl_NEXT_HEADERS_INTERNAL([stdint.h], [check])
+m4trace:configure.ac:55: -1- AC_CHECK_HEADERS_ONCE([stdint.h])
+m4trace:configure.ac:55: -1- AC_DEFUN([gl_CHECK_HEADER_stdint_h], [
+      m4_divert_text([INIT_PREPARE],
+        [gl_header_list="$gl_header_list gl_HEADER_NAME"])
+      gl_HEADERS_EXPANSION
+      AH_TEMPLATE(AS_TR_CPP([HAVE_]m4_defn([gl_HEADER_NAME])),
+        [Define to 1 if you have the <]m4_defn([gl_HEADER_NAME])[> header file.])
+    ])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^NEXT_STDINT_H$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^NEXT_AS_FIRST_DIRECTIVE_STDINT_H$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_STDINT_H$])
+m4trace:configure.ac:55: -1- gl_STDINT_INCLUDES
+m4trace:configure.ac:55: -1- gl_STDINT_INCLUDES
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_SYS_INTTYPES_H$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_SYS_BITYPES_H$])
+m4trace:configure.ac:55: -1- gl_STDINT_TYPE_PROPERTIES
+m4trace:configure.ac:55: -1- gl_STDINT_BITSIZEOF([ptrdiff_t size_t], [gl_STDINT_INCLUDES])
+m4trace:configure.ac:55: -1- AC_COMPUTE_INT([result], [sizeof ($gltype) * CHAR_BIT], [gl_STDINT_INCLUDES
+#include <limits.h>], [result=unknown])
+m4trace:configure.ac:55: -1- gl_STDINT_INCLUDES
+m4trace:configure.ac:55: -1- m4_pattern_allow([^BITSIZEOF_PTRDIFF_T$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^BITSIZEOF_SIZE_T$])
+m4trace:configure.ac:55: -1- gl_STDINT_BITSIZEOF([sig_atomic_t wchar_t wint_t], [gl_STDINT_INCLUDES])
+m4trace:configure.ac:55: -1- AC_COMPUTE_INT([result], [sizeof ($gltype) * CHAR_BIT], [gl_STDINT_INCLUDES
+#include <limits.h>], [result=unknown])
+m4trace:configure.ac:55: -1- gl_STDINT_INCLUDES
+m4trace:configure.ac:55: -1- m4_pattern_allow([^BITSIZEOF_SIG_ATOMIC_T$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^BITSIZEOF_WCHAR_T$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^BITSIZEOF_WINT_T$])
+m4trace:configure.ac:55: -1- gl_CHECK_TYPES_SIGNED([sig_atomic_t wchar_t wint_t], [gl_STDINT_INCLUDES])
+m4trace:configure.ac:55: -1- gl_STDINT_INCLUDES
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_SIGNED_SIG_ATOMIC_T$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_SIGNED_WCHAR_T$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^HAVE_SIGNED_WINT_T$])
+m4trace:configure.ac:55: -1- gl_INTEGER_TYPE_SUFFIX([ptrdiff_t size_t], [gl_STDINT_INCLUDES])
+m4trace:configure.ac:55: -1- gl_STDINT_INCLUDES
+m4trace:configure.ac:55: -1- m4_pattern_allow([^PTRDIFF_T_SUFFIX$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^SIZE_T_SUFFIX$])
+m4trace:configure.ac:55: -1- gl_INTEGER_TYPE_SUFFIX([sig_atomic_t wchar_t wint_t], [gl_STDINT_INCLUDES])
+m4trace:configure.ac:55: -1- gl_STDINT_INCLUDES
+m4trace:configure.ac:55: -1- m4_pattern_allow([^SIG_ATOMIC_T_SUFFIX$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^WCHAR_T_SUFFIX$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^WINT_T_SUFFIX$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^STDINT_H$])
+m4trace:configure.ac:55: -1- AM_CONDITIONAL([GL_GENERATE_STDINT_H], [test -n "$STDINT_H"])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GL_GENERATE_STDINT_H_TRUE$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^GL_GENERATE_STDINT_H_FALSE$])
+m4trace:configure.ac:55: -1- _AM_SUBST_NOTMAKE([GL_GENERATE_STDINT_H_TRUE])
+m4trace:configure.ac:55: -1- _AM_SUBST_NOTMAKE([GL_GENERATE_STDINT_H_FALSE])
+m4trace:configure.ac:55: -1- gl_HEADER_STRING_H
+m4trace:configure.ac:55: -1- gl_HEADER_STRING_H_BODY
+m4trace:configure.ac:55: -1- gl_NEXT_HEADERS([string.h])
+m4trace:configure.ac:55: -1- gl_NEXT_HEADERS_INTERNAL([string.h], [assume])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^NEXT_STRING_H$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^NEXT_AS_FIRST_DIRECTIVE_STRING_H$])
+m4trace:configure.ac:55: -1- gl_WARN_ON_USE_PREPARE([[#include <string.h>
+    ]], [memmem mempcpy memrchr rawmemchr stpcpy stpncpy strchrnul strdup
+     strncat strndup strnlen strpbrk strsep strcasestr strtok_r strerror_r
+     strsignal strverscmp])
+m4trace:configure.ac:55: -1- gl_COMMON
+m4trace:configure.ac:55: -1- m4_pattern_allow([^gltests_WITNESS$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^LIBGNU_LIBDEPS$])
+m4trace:configure.ac:55: -1- m4_pattern_allow([^LIBGNU_LTLIBDEPS$])
+m4trace:configure.ac:58: -1- m4_pattern_allow([^STDC_HEADERS$])
+m4trace:configure.ac:59: -1- m4_pattern_allow([^HAVE_SYSLOG_H$])
+m4trace:configure.ac:61: -1- m4_pattern_allow([^size_t$])
+m4trace:configure.ac:61: -1- m4_pattern_allow([^HAVE_ALLOCA_H$])
+m4trace:configure.ac:61: -1- m4_pattern_allow([^HAVE_ALLOCA$])
+m4trace:configure.ac:61: -1- m4_pattern_allow([^ALLOCA$])
+m4trace:configure.ac:61: -1- m4_pattern_allow([^C_ALLOCA$])
+m4trace:configure.ac:61: -1- m4_pattern_allow([^CRAY_STACKSEG_END$])
+m4trace:configure.ac:61: -1- m4_pattern_allow([^STACK_DIRECTION$])
+m4trace:configure.ac:90: -1- m4_pattern_allow([^_WIN32_WINNT$])
+m4trace:configure.ac:131: -1- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:207: AC_HELP_STRING is expanded from...
+../../lib/autoconf/general.m4:1462: AC_ARG_ENABLE is expanded from...
+configure.ac:131: the top level])
+m4trace:configure.ac:142: -1- m4_pattern_allow([^HAVE_OPENCL$])
+m4trace:configure.ac:169: -1- m4_pattern_allow([^HAVE_LIBWINPTHREAD$])
+m4trace:configure.ac:174: -1- m4_pattern_allow([^HAVE_LIBPTHREAD$])
+m4trace:configure.ac:181: -1- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:207: AC_HELP_STRING is expanded from...
+../../lib/autoconf/general.m4:1462: AC_ARG_ENABLE is expanded from...
+configure.ac:181: the top level])
+m4trace:configure.ac:191: -1- _m4_warn([cross], [cannot check for file existence when cross compiling], [../../lib/autoconf/general.m4:2777: AC_CHECK_FILE is expanded from...
+configure.ac:191: the top level])
+m4trace:configure.ac:193: -1- _m4_warn([cross], [cannot check for file existence when cross compiling], [../../lib/autoconf/general.m4:2777: AC_CHECK_FILE is expanded from...
+configure.ac:193: the top level])
+m4trace:configure.ac:197: -1- m4_pattern_allow([^HAVE_ADL$])
+m4trace:configure.ac:203: -1- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:207: AC_HELP_STRING is expanded from...
+../../lib/autoconf/general.m4:1462: AC_ARG_ENABLE is expanded from...
+configure.ac:203: the top level])
+m4trace:configure.ac:208: -1- m4_pattern_allow([^USE_SCRYPT$])
+m4trace:configure.ac:214: -1- AM_CONDITIONAL([HAS_SCRYPT], [test x$scrypt = xyes])
+m4trace:configure.ac:214: -1- m4_pattern_allow([^HAS_SCRYPT_TRUE$])
+m4trace:configure.ac:214: -1- m4_pattern_allow([^HAS_SCRYPT_FALSE$])
+m4trace:configure.ac:214: -1- _AM_SUBST_NOTMAKE([HAS_SCRYPT_TRUE])
+m4trace:configure.ac:214: -1- _AM_SUBST_NOTMAKE([HAS_SCRYPT_FALSE])
+m4trace:configure.ac:218: -1- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:207: AC_HELP_STRING is expanded from...
+../../lib/autoconf/general.m4:1462: AC_ARG_ENABLE is expanded from...
+configure.ac:218: the top level])
+m4trace:configure.ac:223: -1- m4_pattern_allow([^USE_BFLSC$])
+m4trace:configure.ac:225: -1- AM_CONDITIONAL([HAS_BFLSC], [test x$bflsc = xyes])
+m4trace:configure.ac:225: -1- m4_pattern_allow([^HAS_BFLSC_TRUE$])
+m4trace:configure.ac:225: -1- m4_pattern_allow([^HAS_BFLSC_FALSE$])
+m4trace:configure.ac:225: -1- _AM_SUBST_NOTMAKE([HAS_BFLSC_TRUE])
+m4trace:configure.ac:225: -1- _AM_SUBST_NOTMAKE([HAS_BFLSC_FALSE])
+m4trace:configure.ac:229: -1- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:207: AC_HELP_STRING is expanded from...
+../../lib/autoconf/general.m4:1462: AC_ARG_ENABLE is expanded from...
+configure.ac:229: the top level])
+m4trace:configure.ac:234: -1- m4_pattern_allow([^USE_BITFORCE$])
+m4trace:configure.ac:236: -1- AM_CONDITIONAL([HAS_BITFORCE], [test x$bitforce = xyes])
+m4trace:configure.ac:236: -1- m4_pattern_allow([^HAS_BITFORCE_TRUE$])
+m4trace:configure.ac:236: -1- m4_pattern_allow([^HAS_BITFORCE_FALSE$])
+m4trace:configure.ac:236: -1- _AM_SUBST_NOTMAKE([HAS_BITFORCE_TRUE])
+m4trace:configure.ac:236: -1- _AM_SUBST_NOTMAKE([HAS_BITFORCE_FALSE])
+m4trace:configure.ac:240: -1- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:207: AC_HELP_STRING is expanded from...
+../../lib/autoconf/general.m4:1462: AC_ARG_ENABLE is expanded from...
+configure.ac:240: the top level])
+m4trace:configure.ac:245: -1- m4_pattern_allow([^USE_ICARUS$])
+m4trace:configure.ac:247: -1- AM_CONDITIONAL([HAS_ICARUS], [test x$icarus = xyes])
+m4trace:configure.ac:247: -1- m4_pattern_allow([^HAS_ICARUS_TRUE$])
+m4trace:configure.ac:247: -1- m4_pattern_allow([^HAS_ICARUS_FALSE$])
+m4trace:configure.ac:247: -1- _AM_SUBST_NOTMAKE([HAS_ICARUS_TRUE])
+m4trace:configure.ac:247: -1- _AM_SUBST_NOTMAKE([HAS_ICARUS_FALSE])
+m4trace:configure.ac:251: -1- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:207: AC_HELP_STRING is expanded from...
+../../lib/autoconf/general.m4:1462: AC_ARG_ENABLE is expanded from...
+configure.ac:251: the top level])
+m4trace:configure.ac:256: -1- m4_pattern_allow([^USE_AVALON$])
+m4trace:configure.ac:258: -1- AM_CONDITIONAL([HAS_AVALON], [test x$avalon = xyes])
+m4trace:configure.ac:258: -1- m4_pattern_allow([^HAS_AVALON_TRUE$])
+m4trace:configure.ac:258: -1- m4_pattern_allow([^HAS_AVALON_FALSE$])
+m4trace:configure.ac:258: -1- _AM_SUBST_NOTMAKE([HAS_AVALON_TRUE])
+m4trace:configure.ac:258: -1- _AM_SUBST_NOTMAKE([HAS_AVALON_FALSE])
+m4trace:configure.ac:262: -1- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:207: AC_HELP_STRING is expanded from...
+../../lib/autoconf/general.m4:1462: AC_ARG_ENABLE is expanded from...
+configure.ac:262: the top level])
+m4trace:configure.ac:267: -1- m4_pattern_allow([^USE_MODMINER$])
+m4trace:configure.ac:269: -1- AM_CONDITIONAL([HAS_MODMINER], [test x$modminer = xyes])
+m4trace:configure.ac:269: -1- m4_pattern_allow([^HAS_MODMINER_TRUE$])
+m4trace:configure.ac:269: -1- m4_pattern_allow([^HAS_MODMINER_FALSE$])
+m4trace:configure.ac:269: -1- _AM_SUBST_NOTMAKE([HAS_MODMINER_TRUE])
+m4trace:configure.ac:269: -1- _AM_SUBST_NOTMAKE([HAS_MODMINER_FALSE])
+m4trace:configure.ac:273: -1- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:207: AC_HELP_STRING is expanded from...
+../../lib/autoconf/general.m4:1462: AC_ARG_ENABLE is expanded from...
+configure.ac:273: the top level])
+m4trace:configure.ac:278: -1- m4_pattern_allow([^USE_ZTEX$])
+m4trace:configure.ac:280: -1- AM_CONDITIONAL([HAS_ZTEX], [test x$ztex = xyes])
+m4trace:configure.ac:280: -1- m4_pattern_allow([^HAS_ZTEX_TRUE$])
+m4trace:configure.ac:280: -1- m4_pattern_allow([^HAS_ZTEX_FALSE$])
+m4trace:configure.ac:280: -1- _AM_SUBST_NOTMAKE([HAS_ZTEX_TRUE])
+m4trace:configure.ac:280: -1- _AM_SUBST_NOTMAKE([HAS_ZTEX_FALSE])
+m4trace:configure.ac:284: -1- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:207: AC_HELP_STRING is expanded from...
+../../lib/autoconf/general.m4:1481: AC_ARG_WITH is expanded from...
+configure.ac:284: the top level])
+m4trace:configure.ac:291: -1- m4_pattern_allow([^HAVE_CURSES$])
+m4trace:configure.ac:306: -1- AM_CONDITIONAL([NEED_FPGAUTILS], [test x$avalon$icarus$bitforce$modminer$ztex != xnonononono])
+m4trace:configure.ac:306: -1- m4_pattern_allow([^NEED_FPGAUTILS_TRUE$])
+m4trace:configure.ac:306: -1- m4_pattern_allow([^NEED_FPGAUTILS_FALSE$])
+m4trace:configure.ac:306: -1- _AM_SUBST_NOTMAKE([NEED_FPGAUTILS_TRUE])
+m4trace:configure.ac:306: -1- _AM_SUBST_NOTMAKE([NEED_FPGAUTILS_FALSE])
+m4trace:configure.ac:307: -1- AM_CONDITIONAL([NEED_USBUTILS_C], [test x$bitforce$modminer$bflsc != xnonono])
+m4trace:configure.ac:307: -1- m4_pattern_allow([^NEED_USBUTILS_C_TRUE$])
+m4trace:configure.ac:307: -1- m4_pattern_allow([^NEED_USBUTILS_C_FALSE$])
+m4trace:configure.ac:307: -1- _AM_SUBST_NOTMAKE([NEED_USBUTILS_C_TRUE])
+m4trace:configure.ac:307: -1- _AM_SUBST_NOTMAKE([NEED_USBUTILS_C_FALSE])
+m4trace:configure.ac:308: -1- AM_CONDITIONAL([HAVE_CURSES], [test x$curses = xyes])
+m4trace:configure.ac:308: -1- m4_pattern_allow([^HAVE_CURSES_TRUE$])
+m4trace:configure.ac:308: -1- m4_pattern_allow([^HAVE_CURSES_FALSE$])
+m4trace:configure.ac:308: -1- _AM_SUBST_NOTMAKE([HAVE_CURSES_TRUE])
+m4trace:configure.ac:308: -1- _AM_SUBST_NOTMAKE([HAVE_CURSES_FALSE])
+m4trace:configure.ac:309: -1- AM_CONDITIONAL([WANT_JANSSON], [test x$request_jansson = xtrue])
+m4trace:configure.ac:309: -1- m4_pattern_allow([^WANT_JANSSON_TRUE$])
+m4trace:configure.ac:309: -1- m4_pattern_allow([^WANT_JANSSON_FALSE$])
+m4trace:configure.ac:309: -1- _AM_SUBST_NOTMAKE([WANT_JANSSON_TRUE])
+m4trace:configure.ac:309: -1- _AM_SUBST_NOTMAKE([WANT_JANSSON_FALSE])
+m4trace:configure.ac:310: -1- AM_CONDITIONAL([HAVE_WINDOWS], [test x$have_win32 = xtrue])
+m4trace:configure.ac:310: -1- m4_pattern_allow([^HAVE_WINDOWS_TRUE$])
+m4trace:configure.ac:310: -1- m4_pattern_allow([^HAVE_WINDOWS_FALSE$])
+m4trace:configure.ac:310: -1- _AM_SUBST_NOTMAKE([HAVE_WINDOWS_TRUE])
+m4trace:configure.ac:310: -1- _AM_SUBST_NOTMAKE([HAVE_WINDOWS_FALSE])
+m4trace:configure.ac:311: -1- AM_CONDITIONAL([HAVE_x86_64], [test x$have_x86_64 = xtrue])
+m4trace:configure.ac:311: -1- m4_pattern_allow([^HAVE_x86_64_TRUE$])
+m4trace:configure.ac:311: -1- m4_pattern_allow([^HAVE_x86_64_FALSE$])
+m4trace:configure.ac:311: -1- _AM_SUBST_NOTMAKE([HAVE_x86_64_TRUE])
+m4trace:configure.ac:311: -1- _AM_SUBST_NOTMAKE([HAVE_x86_64_FALSE])
+m4trace:configure.ac:314: -1- m4_pattern_allow([^USE_USBUTILS$])
+m4trace:configure.ac:325: -1- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:207: AC_HELP_STRING is expanded from...
+../../lib/autoconf/general.m4:1481: AC_ARG_WITH is expanded from...
+configure.ac:325: the top level])
+m4trace:configure.ac:330: -1- m4_pattern_allow([^HAVE_LIBUDEV$])
+m4trace:configure.ac:342: -1- AM_CONDITIONAL([HAVE_LIBUDEV], [test x$libudev != xno])
+m4trace:configure.ac:342: -1- m4_pattern_allow([^HAVE_LIBUDEV_TRUE$])
+m4trace:configure.ac:342: -1- m4_pattern_allow([^HAVE_LIBUDEV_FALSE$])
+m4trace:configure.ac:342: -1- _AM_SUBST_NOTMAKE([HAVE_LIBUDEV_TRUE])
+m4trace:configure.ac:342: -1- _AM_SUBST_NOTMAKE([HAVE_LIBUDEV_FALSE])
+m4trace:configure.ac:344: -1- PKG_PROG_PKG_CONFIG([])
+m4trace:configure.ac:344: -1- m4_pattern_forbid([^_?PKG_[A-Z_]+$])
+m4trace:configure.ac:344: -1- m4_pattern_allow([^PKG_CONFIG(_(PATH|LIBDIR|SYSROOT_DIR|ALLOW_SYSTEM_(CFLAGS|LIBS)))?$])
+m4trace:configure.ac:344: -1- m4_pattern_allow([^PKG_CONFIG_(DISABLE_UNINSTALLED|TOP_BUILD_DIR|DEBUG_SPEW)$])
+m4trace:configure.ac:344: -1- m4_pattern_allow([^PKG_CONFIG$])
+m4trace:configure.ac:344: -1- m4_pattern_allow([^PKG_CONFIG_PATH$])
+m4trace:configure.ac:344: -1- m4_pattern_allow([^PKG_CONFIG_LIBDIR$])
+m4trace:configure.ac:344: -1- m4_pattern_allow([^PKG_CONFIG$])
+m4trace:configure.ac:361: -1- m4_pattern_allow([^HAVE_LIBUSB$])
+m4trace:configure.ac:364: -1- PKG_CHECK_MODULES([LIBUSB], [libusb-1.0], [AC_DEFINE(HAVE_LIBUSB, 1, [Define if you have libusb-1.0])], [AC_MSG_ERROR([Could not find usb library - please install libusb-1.0])])
+m4trace:configure.ac:364: -1- m4_pattern_allow([^LIBUSB_CFLAGS$])
+m4trace:configure.ac:364: -1- m4_pattern_allow([^LIBUSB_LIBS$])
+m4trace:configure.ac:364: -1- PKG_CHECK_EXISTS([libusb-1.0], [pkg_cv_[]LIBUSB_CFLAGS=`$PKG_CONFIG --[]cflags "libusb-1.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
+m4trace:configure.ac:364: -1- PKG_CHECK_EXISTS([libusb-1.0], [pkg_cv_[]LIBUSB_LIBS=`$PKG_CONFIG --[]libs "libusb-1.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
+m4trace:configure.ac:364: -1- _PKG_SHORT_ERRORS_SUPPORTED
+m4trace:configure.ac:364: -1- m4_pattern_allow([^HAVE_LIBUSB$])
+m4trace:configure.ac:368: -1- m4_pattern_allow([^LIBUSB_LIBS$])
+m4trace:configure.ac:369: -1- m4_pattern_allow([^LIBUSB_CFLAGS$])
+m4trace:configure.ac:372: -1- PKG_CHECK_MODULES([LIBCURL], [libcurl >= 7.25.0], [AC_DEFINE([CURL_HAS_KEEPALIVE], [1], [Defined if version of curl supports keepalive.])], [PKG_CHECK_MODULES([LIBCURL], [libcurl >= 7.18.2], ,[AC_MSG_ERROR([Missing required libcurl dev >= 7.18.2])])])
+m4trace:configure.ac:372: -1- m4_pattern_allow([^LIBCURL_CFLAGS$])
+m4trace:configure.ac:372: -1- m4_pattern_allow([^LIBCURL_LIBS$])
+m4trace:configure.ac:372: -1- PKG_CHECK_EXISTS([libcurl >= 7.25.0], [pkg_cv_[]LIBCURL_CFLAGS=`$PKG_CONFIG --[]cflags "libcurl >= 7.25.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
+m4trace:configure.ac:372: -1- PKG_CHECK_EXISTS([libcurl >= 7.25.0], [pkg_cv_[]LIBCURL_LIBS=`$PKG_CONFIG --[]libs "libcurl >= 7.25.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
+m4trace:configure.ac:372: -1- _PKG_SHORT_ERRORS_SUPPORTED
+m4trace:configure.ac:372: -1- PKG_CHECK_MODULES([LIBCURL], [libcurl >= 7.18.2], [], [AC_MSG_ERROR([Missing required libcurl dev >= 7.18.2])])
+m4trace:configure.ac:372: -1- m4_pattern_allow([^LIBCURL_CFLAGS$])
+m4trace:configure.ac:372: -1- m4_pattern_allow([^LIBCURL_LIBS$])
+m4trace:configure.ac:372: -1- PKG_CHECK_EXISTS([libcurl >= 7.18.2], [pkg_cv_[]LIBCURL_CFLAGS=`$PKG_CONFIG --[]cflags "libcurl >= 7.18.2" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
+m4trace:configure.ac:372: -1- PKG_CHECK_EXISTS([libcurl >= 7.18.2], [pkg_cv_[]LIBCURL_LIBS=`$PKG_CONFIG --[]libs "libcurl >= 7.18.2" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
+m4trace:configure.ac:372: -1- _PKG_SHORT_ERRORS_SUPPORTED
+m4trace:configure.ac:372: -1- PKG_CHECK_MODULES([LIBCURL], [libcurl >= 7.18.2], [], [AC_MSG_ERROR([Missing required libcurl dev >= 7.18.2])])
+m4trace:configure.ac:372: -1- m4_pattern_allow([^LIBCURL_CFLAGS$])
+m4trace:configure.ac:372: -1- m4_pattern_allow([^LIBCURL_LIBS$])
+m4trace:configure.ac:372: -1- PKG_CHECK_EXISTS([libcurl >= 7.18.2], [pkg_cv_[]LIBCURL_CFLAGS=`$PKG_CONFIG --[]cflags "libcurl >= 7.18.2" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
+m4trace:configure.ac:372: -1- PKG_CHECK_EXISTS([libcurl >= 7.18.2], [pkg_cv_[]LIBCURL_LIBS=`$PKG_CONFIG --[]libs "libcurl >= 7.18.2" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
+m4trace:configure.ac:372: -1- _PKG_SHORT_ERRORS_SUPPORTED
+m4trace:configure.ac:372: -1- m4_pattern_allow([^CURL_HAS_KEEPALIVE$])
+m4trace:configure.ac:375: -1- PKG_CHECK_MODULES([LIBCURL], [libcurl >= 7.25.0], [], [AC_MSG_ERROR([Missing required libcurl dev >= 7.25.0])])
+m4trace:configure.ac:375: -1- m4_pattern_allow([^LIBCURL_CFLAGS$])
+m4trace:configure.ac:375: -1- m4_pattern_allow([^LIBCURL_LIBS$])
+m4trace:configure.ac:375: -1- PKG_CHECK_EXISTS([libcurl >= 7.25.0], [pkg_cv_[]LIBCURL_CFLAGS=`$PKG_CONFIG --[]cflags "libcurl >= 7.25.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
+m4trace:configure.ac:375: -1- PKG_CHECK_EXISTS([libcurl >= 7.25.0], [pkg_cv_[]LIBCURL_LIBS=`$PKG_CONFIG --[]libs "libcurl >= 7.25.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
+m4trace:configure.ac:375: -1- _PKG_SHORT_ERRORS_SUPPORTED
+m4trace:configure.ac:376: -1- m4_pattern_allow([^CURL_HAS_KEEPALIVE$])
+m4trace:configure.ac:378: -1- m4_pattern_allow([^LIBCURL_LIBS$])
+m4trace:configure.ac:385: -2- m4_pattern_allow([^EXECV_2ND_ARG_TYPE$])
+m4trace:configure.ac:386: -2- m4_pattern_allow([^EXECV_2ND_ARG_TYPE$])
+m4trace:configure.ac:393: -2- m4_pattern_allow([^HAVE_ATTRIBUTE_COLD$])
+m4trace:configure.ac:396: -2- m4_pattern_allow([^HAVE_ATTRIBUTE_CONST$])
+m4trace:configure.ac:399: -2- m4_pattern_allow([^HAVE_ATTRIBUTE_NORETURN$])
+m4trace:configure.ac:402: -2- m4_pattern_allow([^HAVE_ATTRIBUTE_PRINTF$])
+m4trace:configure.ac:405: -2- m4_pattern_allow([^HAVE_ATTRIBUTE_UNUSED$])
+m4trace:configure.ac:408: -2- m4_pattern_allow([^HAVE_ATTRIBUTE_USED$])
+m4trace:configure.ac:411: -2- m4_pattern_allow([^HAVE_BUILTIN_CONSTANT_P$])
+m4trace:configure.ac:414: -2- m4_pattern_allow([^HAVE_BUILTIN_TYPES_COMPATIBLE_P$])
+m4trace:configure.ac:417: -2- m4_pattern_allow([^HAVE_WARN_UNUSED_RESULT$])
+m4trace:configure.ac:424: -1- m4_pattern_allow([^CGMINER_PREFIX$])
+m4trace:configure.ac:426: -1- m4_pattern_allow([^PHATK_KERNNAME$])
+m4trace:configure.ac:427: -1- m4_pattern_allow([^POCLBM_KERNNAME$])
+m4trace:configure.ac:428: -1- m4_pattern_allow([^DIAKGCN_KERNNAME$])
+m4trace:configure.ac:429: -1- m4_pattern_allow([^DIABLO_KERNNAME$])
+m4trace:configure.ac:430: -1- m4_pattern_allow([^SCRYPT_KERNNAME$])
+m4trace:configure.ac:433: -1- m4_pattern_allow([^OPENCL_LIBS$])
+m4trace:configure.ac:434: -1- m4_pattern_allow([^OPENCL_FLAGS$])
+m4trace:configure.ac:435: -1- m4_pattern_allow([^JANSSON_LIBS$])
+m4trace:configure.ac:436: -1- m4_pattern_allow([^PTHREAD_FLAGS$])
+m4trace:configure.ac:437: -1- m4_pattern_allow([^DLOPEN_FLAGS$])
+m4trace:configure.ac:438: -1- m4_pattern_allow([^PTHREAD_LIBS$])
+m4trace:configure.ac:439: -1- m4_pattern_allow([^NCURSES_LIBS$])
+m4trace:configure.ac:440: -1- m4_pattern_allow([^PDCURSES_LIBS$])
+m4trace:configure.ac:441: -1- m4_pattern_allow([^WS2_LIBS$])
+m4trace:configure.ac:442: -1- m4_pattern_allow([^MM_LIBS$])
+m4trace:configure.ac:443: -1- m4_pattern_allow([^MATH_LIBS$])
+m4trace:configure.ac:444: -1- m4_pattern_allow([^UDEV_LIBS$])
+m4trace:configure.ac:445: -1- m4_pattern_allow([^ADL_CPPFLAGS$])
+m4trace:configure.ac:454: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:454: -1- m4_pattern_allow([^LTLIBOBJS$])
+m4trace:configure.ac:454: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
+m4trace:configure.ac:454: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
+m4trace:configure.ac:454: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
+m4trace:configure.ac:454: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
+m4trace:configure.ac:454: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
+m4trace:configure.ac:454: -1- m4_pattern_allow([^gl_LIBOBJS$])
+m4trace:configure.ac:454: -1- m4_pattern_allow([^gl_LTLIBOBJS$])
+m4trace:configure.ac:454: -1- m4_pattern_allow([^gltests_LIBOBJS$])
+m4trace:configure.ac:454: -1- m4_pattern_allow([^gltests_LTLIBOBJS$])
+m4trace:configure.ac:454: -1- _AC_AM_CONFIG_HEADER_HOOK(["$ac_file"])
+m4trace:configure.ac:454: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
