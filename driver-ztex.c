@@ -467,7 +467,7 @@ static bool ztex_prepare(struct thr_info *thr)
 
 			if (*buf) {
 				tmp = atoi(buf);
-				if (tmp >= 100 && tmp <= 250)
+				if (tmp >= 100 && tmp <= 380)
 					ztex->freqM = ztex->freqMDefault = tmp/4 - 1;	// NB 4Mhz units
 				else {
 					sprintf(err_buf, "Invalid ztex-clock must be between 100 and 250", buf);
@@ -477,7 +477,7 @@ static bool ztex_prepare(struct thr_info *thr)
 
 			if (colon && *colon) {
 				tmp = atoi(colon);
-				if (tmp >= 100 && tmp <= 250) {
+				if (tmp >= 100 && tmp <= 380) {
 					if (tmp/4 - 1 >= ztex->freqM)
 						ztex->freqMaxM = tmp/4 - 1;	// NB 4Mhz units
 					else

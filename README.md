@@ -1,1 +1,0 @@
-# cgminer-ztex
